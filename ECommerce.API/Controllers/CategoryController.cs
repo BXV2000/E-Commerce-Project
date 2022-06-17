@@ -34,13 +34,13 @@ namespace ECommerce.API.Controllers
         }
 
         //Post Category
-        //[HttpPost]
-        //public async Task<ActionResult<List<Category>>> PostHero(Category info)
-        //{
-        //    _context.Categories.Add(info);
-        //    await _context.SaveChangesAsync();
-        //    return Ok(await _context.Categories.ToListAsync());
-        //}
+        [HttpPost]
+        public async Task<ActionResult<List<Category>>> PostHero(Category info)
+        {
+            _context.Categories.Add(info);
+            await _context.SaveChangesAsync();
+            return Ok(await _context.Categories.ToListAsync());
+        }
 
 
     }
