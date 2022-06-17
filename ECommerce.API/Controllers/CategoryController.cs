@@ -35,7 +35,7 @@ namespace ECommerce.API.Controllers
 
         //Post Category
         [HttpPost]
-        public async Task<ActionResult<List<Category>>> PostHero(Category info)
+        public async Task<ActionResult<List<Category>>> PostCategory(Category info)
         {
             _context.Categories.Add(info);
             await _context.SaveChangesAsync();
