@@ -7,7 +7,7 @@
         public int VegetableId { get; set; }
         public double RatingNumber { get; set; }
 
-        public virtual Vegetable Vegetable { get; set; }
+        //public virtual Vegetable Vegetable { get; set; }
         public virtual List<Customer> Customers { get; set; } = new List<Customer>();
     }
 }

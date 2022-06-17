@@ -6,6 +6,6 @@
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public virtual List<Vegetable> Vegetables { get; set; } = new List<Vegetable>();
+        public virtual List<Vegetable>? Vegetables { get; set; } = new List<Vegetable>();
     }
 }
