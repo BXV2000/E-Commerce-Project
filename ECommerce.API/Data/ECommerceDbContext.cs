@@ -3,15 +3,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.API.Data
 {
-    public class ECommerceDbContext:DbContext
+    public class ECommerceDbContext : DbContext
     {
-        public ECommerceDbContext(DbContextOptions<ECommerceDbContext> options): base(options) { }
-        public DbSet<Vegetable> Vegetables { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<Image> Images { get; set; }
-        public DbSet<Rating> Ratings { get; set; }
+        public ECommerceDbContext(DbContextOptions<ECommerceDbContext> options) : base(options) { }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
+        public DbSet<Vegetable> Vegetables { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
