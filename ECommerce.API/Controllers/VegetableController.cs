@@ -17,14 +17,14 @@ namespace ECommerce.API.Controllers
             _context = context;
         }
 
-        //Get all Category
+        //Get all Vegetable
         [HttpGet]
         public async Task<ActionResult<List<Vegetable>>> GetAllVegetable()
         {
             return Ok(await _context.Vegetables.ToListAsync());  
         }
 
-        //Get one Category
+        //Get one Vegetable
         [HttpGet("{id}")]
         public async Task<ActionResult<Vegetable>> GetOneVegetable(int id)
         {
@@ -33,7 +33,7 @@ namespace ECommerce.API.Controllers
             return Ok(Vegetable);    
         }
 
-        //Post Category
+        //Post Vegetable
         [HttpPost]
         public async Task<ActionResult<List<Vegetable>>> PostVegetable(Vegetable info)
         {

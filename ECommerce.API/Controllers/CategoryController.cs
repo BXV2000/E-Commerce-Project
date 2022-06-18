@@ -21,6 +21,8 @@ namespace ECommerce.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Category>>> GetAllCategory()
         {
+            var category = await _context.Categories.CountAsync();
+            if (category == 0) return NotFound("Empty Category");
             return Ok(await _context.Categories.ToListAsync());  
         }
 

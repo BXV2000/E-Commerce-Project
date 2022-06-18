@@ -17,14 +17,14 @@ namespace ECommerce.API.Controllers
             _context = context;
         }
 
-        //Get all Category
+        //Get all Image
         [HttpGet]
         public async Task<ActionResult<List<Image>>> GetAllImage()
         {
             return Ok(await _context.Images.ToListAsync());  
         }
 
-        //Get one Category
+        //Get one Image
         [HttpGet("{id}")]
         public async Task<ActionResult<Image>> GetOneImage(int id)
         {
@@ -33,9 +33,9 @@ namespace ECommerce.API.Controllers
             return Ok(Image);    
         }
 
-        //Post Category
+        //Post Image
         [HttpPost]
-        public async Task<ActionResult<List<Image>>> PostHero(Image info)
+        public async Task<ActionResult<List<Image>>> PostImage(Image info)
         {
             _context.Images.Add(info);
             await _context.SaveChangesAsync();
