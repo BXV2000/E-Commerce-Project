@@ -19,14 +19,33 @@ namespace ECommerce.API.Controllers
 
         //Get all Vegetable
         [HttpGet]
-        public async Task<ActionResult<List<Vegetable>>> GetAllVegetable()
+        public IActionResult Get()
         {
-            return Ok(await _context.Vegetables.ToListAsync());  
+            try
+            {
+                var getVegetable = _context.Vegetables.Select(vegetable => new VegetableModel
+                {
+                    Id = vegetable.Id,
+                    CategoryId = vegetable.CategoryId,
+                    Name = vegetable.Name,
+                    MFGDate = vegetable.MFGDate,
+                    EXPDate = vegetable.EXPDate,
+                    Price = vegetable.Price,
+                    Stock = vegetable.Stock,
+                    IsDelete = vegetable.IsDeleted
+                }).ToList();
+                if (getVegetable != null) return BadRequest("Vegetable Empty");
+                return Ok( getVegetable);
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
         }
 
         //Get one Vegetable
         [HttpGet("{id}")]
-        public async Task<ActionResult<Vegetable>> GetOneVegetable(int id)
+        public async Task<IActionResult> Get(int id)
         {
             var Vegetable = await _context.Vegetables.FindAsync(id);
             if (Vegetable == null) return BadRequest("Vegetable not found :(");
@@ -35,13 +54,46 @@ namespace ECommerce.API.Controllers
 
         //Post Vegetable
         [HttpPost]
-        public async Task<ActionResult<List<Vegetable>>> PostVegetable(Vegetable info)
+        public IActionResult Post(VegetableModel info)
         {
-            _context.Vegetables.Add(info);
-            await _context.SaveChangesAsync();
-            return Ok(await _context.Vegetables.ToListAsync());
+            try
+            {
+                var checkCategory = _context.Categories;
+                var vegetable = new Vegetable
+                {
+                    CategoryId = info.CategoryId,
+                    Name = info.Name,
+                    MFGDate = info.MFGDate,
+                    EXPDate = info.EXPDate,
+                    Price = info.Price,
+                    Stock = info.Stock,
+                };
+                if (vegetable.CategoryId == 0) return BadRequest("Please input category ID");
+                if (checkCategory.Find(info.CategoryId) == null) return BadRequest("Cannot find category ID");
+                if (checkCategory.Find(info.CategoryId) != null && 
+                    checkCategory.Where(catergory => catergory.Id == info.CategoryId).FirstOrDefault().IsDeleted == true) 
+                    return BadRequest("Category Deleted");
+                //_context.Vegetables.AddAsync(vegetable);
+                //await _context.SaveChangesAsync();
+                return Ok(_context.Vegetables.ToList());
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
         }
 
+        public class VegetableModel
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public int CategoryId { get; set; }
+            public DateTime MFGDate { get; set; }
+            public DateTime EXPDate { get; set; }
+            public decimal Price { get; set; }
+            public int Stock { get; set; }
+            public bool IsDelete { get; set; }
+        }
 
     }
 }

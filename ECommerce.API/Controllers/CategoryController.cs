@@ -19,18 +19,18 @@ namespace ECommerce.API.Controllers
 
         //Get all Category
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             try
             {
-                var category = await _context.Categories.Select(c => new CategoryModel
+                var getCategory = _context.Categories.Select(category => new CategoryModel
                 {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Description = c.Description,
-                }).ToListAsync();
-                if (category == null) return BadRequest("There is no category");
-                return Ok(category);
+                    Id = category.Id,
+                    Name = category.Name,
+                    Description = category.Description,
+                }).ToList();
+                if (getCategory == null) return NotFound("There is no category");
+                return Ok(getCategory.Where(category=> category.IsDelete==false));
             }
             catch
             {
@@ -41,18 +41,17 @@ namespace ECommerce.API.Controllers
 
         //Get one Category
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public IActionResult Get(int id)
         {
             try
             {
-                var category = await _context.Categories.FindAsync(id);
-                if (category == null) return BadRequest("Category not found :(");
+                var getCategory = _context.Categories.Find(id);
+                if (getCategory == null || getCategory.IsDeleted == true) return NotFound("Category not found :(");
                 return Ok(new CategoryModel
                 {
-                    Id = category.Id,
-                    Name = category.Name,
-                    Description = category.Description,
-                    IsDelete = category.IsDeleted,
+                    Id = getCategory.Id,
+                    Name = getCategory.Name,
+                    Description = getCategory.Description,
                 });
             }
             catch
@@ -63,7 +62,7 @@ namespace ECommerce.API.Controllers
 
         //Post Category
         [HttpPost]
-        public async Task<IActionResult> Post(CategoryModel info)
+        public IActionResult Post(CategoryModel info)
         {
             try
             {
@@ -72,9 +71,9 @@ namespace ECommerce.API.Controllers
                     Name = info.Name,
                     Description = info.Description,
                 };
-                await _context.Categories.AddAsync(category);
-                await _context.SaveChangesAsync();
-                return Ok(await _context.Categories.ToListAsync());
+                _context.Categories.Add(category);
+                _context.SaveChanges();
+                return Ok(_context.Categories.ToList());
             }
             catch
             {
@@ -84,26 +83,26 @@ namespace ECommerce.API.Controllers
 
         //Put Category
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, CategoryModel info)
+        public IActionResult Put(int id, CategoryModel info)
         {
             try
             {
                 Category updateCategory;
                 using (var context = new ECommerceDbContext())
                 {
-                    updateCategory = context.Categories.Where(catergory => catergory.Id == id).FirstOrDefault();
-                    updateCategory.Name = info.Name;
-                    updateCategory.Description = info.Description;
-                    context.Entry(updateCategory).State = EntityState.Modified;
-                    await context.SaveChangesAsync();
+                    var category = context.Categories.Find(id);
+                    if (category == null || category.IsDeleted == true) return NotFound("Category not found :(");
+                    category.Name = info.Name;
+                    category.Description = info.Description;
+                    context.Entry(category).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return Ok(new CategoryModel
+                    {
+                        Id = category.Id,
+                        Name = category.Name,
+                        Description = category.Description,
+                    });
                 }
-                return Ok(new CategoryModel
-                {
-                    Id = updateCategory.Id,
-                    Name = updateCategory.Name,
-                    Description = updateCategory.Description,
-                    IsDelete = updateCategory.IsDeleted,
-                });
             }
             catch
             {
@@ -113,25 +112,24 @@ namespace ECommerce.API.Controllers
 
         //Delete Category
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
             try
             {
-                Category updateCategory;
                 using (var context = new ECommerceDbContext())
                 {
-                    updateCategory = context.Categories.Where(catergory => catergory.Id == id).FirstOrDefault();
-                    updateCategory.IsDeleted = true;
-                    context.Entry(updateCategory).State = EntityState.Modified;
-                    await context.SaveChangesAsync();
+                    var category = context.Categories.Find(id);
+                    if (category == null || category.IsDeleted == true) return NotFound("Category not found :(");
+                    category.IsDeleted = true;
+                    context.Entry(category).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return Ok(new CategoryModel
+                    {
+                        Id = category.Id,
+                        Name = category.Name,
+                        Description = category.Description,
+                    });
                 }
-                return Ok(new CategoryModel
-                {
-                    Id = updateCategory.Id,
-                    Name = updateCategory.Name,
-                    Description = updateCategory.Description,
-                    IsDelete = updateCategory.IsDeleted,
-                });
             }
             catch
             {
