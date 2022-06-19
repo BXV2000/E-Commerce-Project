@@ -29,7 +29,7 @@ namespace ECommerce.API.Controllers
                     Name = category.Name,
                     Description = category.Description,
                 }).ToList();
-                if (!getCategory.Any()) return NotFound("Category Empty");
+                if (getCategory == null) return NotFound("There is no category");
                 return Ok(getCategory.Where(category=> category.IsDelete==false));
             }
             catch
@@ -73,12 +73,7 @@ namespace ECommerce.API.Controllers
                 };
                 _context.Categories.Add(category);
                 _context.SaveChanges();
-                return Ok(new CategoryModel
-                {
-                    Id = category.Id,
-                    Name = category.Name,
-                    Description = category.Description,
-                });
+                return Ok(_context.Categories.ToList());
             }
             catch
             {
@@ -86,12 +81,13 @@ namespace ECommerce.API.Controllers
             }
         }
 
-        //Update Category
+        //Put Category
         [HttpPut("{id}")]
         public IActionResult Put(int id, CategoryModel info)
         {
             try
             {
+                Category updateCategory;
                 using (var context = new ECommerceDbContext())
                 {
                     var category = context.Categories.Find(id);
