@@ -5,6 +5,10 @@ namespace ECommerce.API.Data
 {
     public class ECommerceDbContext : DbContext
     {
+        public ECommerceDbContext()
+        {
+        }
+
         public ECommerceDbContext(DbContextOptions<ECommerceDbContext> options) : base(options) { }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Address> Addresses { get; set; }

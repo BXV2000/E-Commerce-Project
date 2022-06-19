@@ -19,31 +19,132 @@ namespace ECommerce.API.Controllers
 
         //Get all Category
         [HttpGet]
-        public async Task<ActionResult<List<Category>>> GetAllCategory()
+        public async Task<IActionResult> Get()
         {
-            var category = await _context.Categories.CountAsync();
-            if (category == 0) return NotFound("Empty Category");
-            return Ok(await _context.Categories.ToListAsync());  
+            try
+            {
+                var category = await _context.Categories.Select(c => new CategoryModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Description = c.Description,
+                }).ToListAsync();
+                if (category == null) return BadRequest("There is no category");
+                return Ok(category);
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
+
         }
 
         //Get one Category
         [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetOneCategory(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null) return BadRequest("Category not found :(");
-            return Ok(category);    
+            try
+            {
+                var category = await _context.Categories.FindAsync(id);
+                if (category == null) return BadRequest("Category not found :(");
+                return Ok(new CategoryModel
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    Description = category.Description,
+                    IsDelete = category.IsDeleted,
+                });
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
         }
 
         //Post Category
         [HttpPost]
-        public async Task<ActionResult<List<Category>>> PostCategory(Category info)
+        public async Task<IActionResult> Post(CategoryModel info)
         {
-            _context.Categories.Add(info);
-            await _context.SaveChangesAsync();
-            return Ok(await _context.Categories.ToListAsync());
+            try
+            {
+                var category = new Category
+                {
+                    Name = info.Name,
+                    Description = info.Description,
+                };
+                await _context.Categories.AddAsync(category);
+                await _context.SaveChangesAsync();
+                return Ok(await _context.Categories.ToListAsync());
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
         }
 
+        //Put Category
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, CategoryModel info)
+        {
+            try
+            {
+                Category updateCategory;
+                using (var context = new ECommerceDbContext())
+                {
+                    updateCategory = context.Categories.Where(catergory => catergory.Id == id).FirstOrDefault();
+                    updateCategory.Name = info.Name;
+                    updateCategory.Description = info.Description;
+                    context.Entry(updateCategory).State = EntityState.Modified;
+                    await context.SaveChangesAsync();
+                }
+                return Ok(new CategoryModel
+                {
+                    Id = updateCategory.Id,
+                    Name = updateCategory.Name,
+                    Description = updateCategory.Description,
+                    IsDelete = updateCategory.IsDeleted,
+                });
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
+        }
 
+        //Delete Category
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                Category updateCategory;
+                using (var context = new ECommerceDbContext())
+                {
+                    updateCategory = context.Categories.Where(catergory => catergory.Id == id).FirstOrDefault();
+                    updateCategory.IsDeleted = true;
+                    context.Entry(updateCategory).State = EntityState.Modified;
+                    await context.SaveChangesAsync();
+                }
+                return Ok(new CategoryModel
+                {
+                    Id = updateCategory.Id,
+                    Name = updateCategory.Name,
+                    Description = updateCategory.Description,
+                    IsDelete = updateCategory.IsDeleted,
+                });
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
+        }
+
+        public class CategoryModel
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public bool IsDelete { get; set; }
+        }
     }
 }
