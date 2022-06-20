@@ -27,7 +27,7 @@ namespace ECommerce.API.Controllers
             try
             {
                 var getImage = _context.Images.ToList();
-                var imageDTOs = _mapper.Map<List<ImageDTO>>(getImage);
+                var imageDTOs = _mapper.Map<List<ImageGetDTO>>(getImage);
 
                 if (!imageDTOs.Any()) return NotFound("Image Empty");
                 return Ok(imageDTOs.Where(image => image.IsDeleted==false));
@@ -47,12 +47,8 @@ namespace ECommerce.API.Controllers
             {
                 var getImage = _context.Images.Find(id);
                 if (getImage == null || getImage.IsDeleted == true) return NotFound("Image not found :(");
-                return Ok(new ImageModel
-                {
-                    Id = getImage.Id,
-                    VegetableId = getImage.VegetableId,
-                    ImageURL = getImage.ImageURL,
-                });
+                var imageDTOs = _mapper.Map<ImageGetDTO>(getImage);
+                return Ok(imageDTOs);
             }
             catch
             {
@@ -62,27 +58,18 @@ namespace ECommerce.API.Controllers
 
         //Post Image
         [HttpPost]
-        public IActionResult Post(ImageModel info)
+        public IActionResult Post(ImagePostDTO info)
         {
             try
             {
                 var checkVegetable = _context.Vegetables.Find(info.VegetableId);
-                var image = new Image
-                {
-                    Id = info.Id,
-                    VegetableId = info.VegetableId,
-                    ImageURL = info.ImageURL,
-                };
-                if (image.VegetableId == 0) return BadRequest("Please input vegetable ID");
+                var createImage = _mapper.Map<Image>(info);
+                if (createImage.VegetableId == 0) return BadRequest("Please input vegetable ID");
                 if (checkVegetable == null || checkVegetable.IsDeleted == true) return NotFound("Vegetable not found");
-                _context.Images.Add(image);
+                var image = _context.Images.Add(createImage);
+                var returnImage = _mapper.Map<ImageGetDTO>(createImage);
                 _context.SaveChanges();
-                return Ok(new ImageModel
-                {
-                    Id = image.Id,
-                    VegetableId = image.VegetableId,
-                    ImageURL = image.ImageURL,
-                });
+                return Ok(returnImage);
             }
             catch
             {

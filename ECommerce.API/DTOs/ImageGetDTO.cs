@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.API.DTOs
 {
-    public class ImageDTO
+    public class ImageGetDTO
     {
         public int Id { get; set; }
         public int VegetableId { get; set; }
