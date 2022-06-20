@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ECommerce.API.Models;
 using ECommerce.API.Data;
 using Microsoft.EntityFrameworkCore;
+using static ECommerce.API.Controllers.ImageController;
 
 namespace ECommerce.API.Controllers
 {
@@ -23,19 +24,29 @@ namespace ECommerce.API.Controllers
         {
             try
             {
-                var getVegetable = _context.Vegetables.Select(vegetable => new VegetableModel
-                {
-                    Id = vegetable.Id,
-                    CategoryId = vegetable.CategoryId,
-                    Name = vegetable.Name,
-                    MFGDate = vegetable.MFGDate,
-                    EXPDate = vegetable.EXPDate,
-                    Price = vegetable.Price,
-                    Stock = vegetable.Stock,
-                    IsDeleted = vegetable.IsDeleted
-                }).ToList();
+                var getVegetable = _context.Vegetables.
+                    Include(vegetable => vegetable.Images).
+                    Select(vegetable => new VegetableModel
+                    {
+                        Id = vegetable.Id,
+                        CategoryId = vegetable.CategoryId,
+                        Name = vegetable.Name,
+                        MFGDate = vegetable.MFGDate,
+                        EXPDate = vegetable.EXPDate,
+                        Price = vegetable.Price,
+                        Stock = vegetable.Stock,
+                        IsDeleted = vegetable.IsDeleted,
+                        Images = vegetable.Images.Select(image => new ImageModel
+                        {
+                            Id=image.Id,
+                            ImageURL = image.ImageURL,
+                            VegetableId = image.VegetableId,
+                        }).ToList(),
+                    }).
+                    ToList();
+                //var vegetableWithImage = _context.Vegetables
                 if (!getVegetable.Any()) return NotFound("Vegetable Empty");
-                return Ok(getVegetable.Where(vegetable => vegetable.IsDeleted == false));
+                return Ok(getVegetable);
             }
             catch
             {
@@ -156,6 +167,7 @@ namespace ECommerce.API.Controllers
             public decimal Price { get; set; }
             public int Stock { get; set; }
             public bool IsDeleted { get; set; }
+            public List<ImageModel> Images { get; set; } = new List<ImageModel>();
         }
 
     }
