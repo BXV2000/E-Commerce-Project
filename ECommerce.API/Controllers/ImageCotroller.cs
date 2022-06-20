@@ -19,29 +19,84 @@ namespace ECommerce.API.Controllers
 
         //Get all Image
         [HttpGet]
-        public async Task<ActionResult<List<Image>>> GetAllImage()
+        public IActionResult Get()
         {
-            return Ok(await _context.Images.ToListAsync());  
+            try
+            {
+                var getImage = _context.Images.Select(image => new ImageModel
+                {
+                    Id = image.Id,
+                    VegetableId = image.VegetableId,
+                    ImageURL = image.ImageURL,
+                }).ToList();
+                if (!getImage.Any()) return NotFound("Image Empty");
+                return Ok(getImage.Where(image => image.IsDeleted == false));
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
+
         }
 
         //Get one Image
         [HttpGet("{id}")]
-        public async Task<ActionResult<Image>> GetOneImage(int id)
+        public IActionResult Get(int id)
         {
-            var Image = await _context.Images.FindAsync(id);
-            if (Image == null) return BadRequest("Image not found :(");
-            return Ok(Image);    
+            try
+            {
+                var getImage = _context.Images.Find(id);
+                if (getImage == null || getImage.IsDeleted == true) return NotFound("Image not found :(");
+                return Ok(new ImageModel
+                {
+                    Id = getImage.Id,
+                    VegetableId = getImage.VegetableId,
+                    ImageURL = getImage.ImageURL,
+                });
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
         }
 
         //Post Image
         [HttpPost]
-        public async Task<ActionResult<List<Image>>> PostImage(Image info)
+        public IActionResult Post(ImageModel info)
         {
-            _context.Images.Add(info);
-            await _context.SaveChangesAsync();
-            return Ok(await _context.Images.ToListAsync());
+            try
+            {
+                var checkVegetable = _context.Vegetables.Find(info.VegetableId);
+                var image = new Image
+                {
+                    Id = info.Id,
+                    VegetableId = info.VegetableId,
+                    ImageURL = info.ImageURL,
+                };
+                if (image.VegetableId == 0) return BadRequest("Please input vegetable ID");
+                if (checkVegetable == null || checkVegetable.IsDeleted == true) return NotFound("Vegetable not found");
+                _context.Images.Add(image);
+                _context.SaveChanges();
+                return Ok(new ImageModel
+                {
+                    Id = image.Id,
+                    VegetableId = image.VegetableId,
+                    ImageURL = image.ImageURL,
+                });
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
         }
 
+        public class ImageModel
+        {
+            public int Id { get; set; }
+            public int VegetableId { get; set; }
+            public string ImageURL { get; set; }
+            public bool IsDeleted { get; set; }
+        }
 
     }
 }

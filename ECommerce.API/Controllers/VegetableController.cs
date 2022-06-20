@@ -32,10 +32,10 @@ namespace ECommerce.API.Controllers
                     EXPDate = vegetable.EXPDate,
                     Price = vegetable.Price,
                     Stock = vegetable.Stock,
-                    IsDelete = vegetable.IsDeleted
+                    IsDeleted = vegetable.IsDeleted
                 }).ToList();
                 if (!getVegetable.Any()) return NotFound("Vegetable Empty");
-                return Ok(getVegetable.Where(vegetable => vegetable.IsDelete == false));
+                return Ok(getVegetable.Where(vegetable => vegetable.IsDeleted == false));
             }
             catch
             {
@@ -60,7 +60,7 @@ namespace ECommerce.API.Controllers
                     EXPDate = getVegetable.EXPDate,
                     Price = getVegetable.Price,
                     Stock = getVegetable.Stock,
-                    IsDelete = getVegetable.IsDeleted
+                    IsDeleted = getVegetable.IsDeleted
                 });
             }
             catch
@@ -98,7 +98,7 @@ namespace ECommerce.API.Controllers
                     EXPDate = vegetable.EXPDate,
                     Price = vegetable.Price,
                     Stock = vegetable.Stock,
-                    IsDelete = vegetable.IsDeleted
+                    IsDeleted = vegetable.IsDeleted
                 });
             }
             catch
@@ -136,7 +136,7 @@ namespace ECommerce.API.Controllers
                         EXPDate = vegetable.EXPDate,
                         Price = vegetable.Price,
                         Stock = vegetable.Stock,
-                        IsDelete = vegetable.IsDeleted
+                        IsDeleted = vegetable.IsDeleted
                     });
                 }
             }
@@ -155,7 +155,7 @@ namespace ECommerce.API.Controllers
             public DateTime EXPDate { get; set; }
             public decimal Price { get; set; }
             public int Stock { get; set; }
-            public bool IsDelete { get; set; }
+            public bool IsDeleted { get; set; }
         }
 
     }

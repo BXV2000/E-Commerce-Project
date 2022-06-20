@@ -17,7 +17,7 @@ namespace ECommerce.API.Controllers
             _context = context;
         }
 
-        //Get all Category
+        // Get all Category
         [HttpGet]
         public IActionResult Get()
         {
@@ -29,8 +29,8 @@ namespace ECommerce.API.Controllers
                     Name = category.Name,
                     Description = category.Description,
                 }).ToList();
-                if (getCategory == null) return NotFound("There is no category");
-                return Ok(getCategory.Where(category=> category.IsDelete==false));
+                if (!getCategory.Any()) return NotFound("Category Empty");
+                return Ok(getCategory.Where(category=> category.IsDeleted==false));
             }
             catch
             {
@@ -73,7 +73,12 @@ namespace ECommerce.API.Controllers
                 };
                 _context.Categories.Add(category);
                 _context.SaveChanges();
-                return Ok(_context.Categories.ToList());
+                return Ok(new CategoryModel
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    Description = category.Description,
+                });
             }
             catch
             {
@@ -142,7 +147,7 @@ namespace ECommerce.API.Controllers
             public int Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
-            public bool IsDelete { get; set; }
+            public bool IsDeleted { get; set; }
         }
     }
 }
