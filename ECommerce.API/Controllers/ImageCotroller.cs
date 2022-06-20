@@ -90,6 +90,55 @@ namespace ECommerce.API.Controllers
             }
         }
 
+        // Update Image
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, ImageModel info)
+        {
+            try
+            {
+                using (var context = new ECommerceDbContext())
+                {
+                    var image = context.Images.Find(id);
+                    if (image == null || image.IsDeleted == true) return NotFound("Image not found");
+                    image.ImageURL = info.ImageURL;
+                    context.Entry(image).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return Ok(new ImageModel
+                    {
+                        Id = image.Id,
+                        VegetableId = image.VegetableId,
+                        ImageURL = image.ImageURL,
+                    });
+                }
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
+        }
+
+        // Delete Image
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                using (var context = new ECommerceDbContext())
+                {
+                    var image = context.Images.Find(id);
+                    if (image == null || image.IsDeleted == true) return NotFound("Image not found");
+                    image.IsDeleted = true;
+                    context.Entry(image).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return Ok($"Image with id = {id} was deleted ");
+                }
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
+        }
+
         public class ImageModel
         {
             public int Id { get; set; }

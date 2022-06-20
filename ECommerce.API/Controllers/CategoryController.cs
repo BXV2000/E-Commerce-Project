@@ -128,12 +128,7 @@ namespace ECommerce.API.Controllers
                     category.IsDeleted = true;
                     context.Entry(category).State = EntityState.Modified;
                     context.SaveChanges();
-                    return Ok(new CategoryModel
-                    {
-                        Id = category.Id,
-                        Name = category.Name,
-                        Description = category.Description,
-                    });
+                    return Ok($"Category with id = {id} was deleted ");
                 }
             }
             catch
