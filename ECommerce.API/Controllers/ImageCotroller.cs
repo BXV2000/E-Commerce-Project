@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using ECommerce.API.Models;
 using ECommerce.API.Data;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using ECommerce.API.DTOs;
 
 namespace ECommerce.API.Controllers
 {
@@ -11,10 +13,11 @@ namespace ECommerce.API.Controllers
     public class ImageController : ControllerBase
     {
         private readonly ECommerceDbContext _context;
-
-        public ImageController(ECommerceDbContext context)
+        private readonly IMapper _mapper;
+        public ImageController(ECommerceDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         //Get all Image
@@ -23,14 +26,11 @@ namespace ECommerce.API.Controllers
         {
             try
             {
-                var getImage = _context.Images.Select(image => new ImageModel
-                {
-                    Id = image.Id,
-                    VegetableId = image.VegetableId,
-                    ImageURL = image.ImageURL,
-                }).ToList();
-                if (!getImage.Any()) return NotFound("Image Empty");
-                return Ok(getImage.Where(image => image.IsDeleted == false));
+                var getImage = _context.Images.ToList();
+                var imageDTOs = _mapper.Map<List<ImageDTO>>(getImage);
+
+                if (!imageDTOs.Any()) return NotFound("Image Empty");
+                return Ok(imageDTOs.Where(image => image.IsDeleted==false));
             }
             catch
             {
