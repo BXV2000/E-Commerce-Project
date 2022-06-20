@@ -9,8 +9,8 @@ namespace ECommerce.API.Profiles
         public ImageProfile()
         {
             //Soure -> Destination
-            CreateMap<Image, ImageGetDTO>();
-            CreateMap<ImagePostDTO, Image>();
+            CreateMap<Image, ImageReadDTO>();
+            CreateMap<ImageCreateUpdateDTO, Image>();
         }
     }
 }

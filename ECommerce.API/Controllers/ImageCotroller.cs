@@ -27,7 +27,7 @@ namespace ECommerce.API.Controllers
             try
             {
                 var getImage = _context.Images.ToList();
-                var imageDTOs = _mapper.Map<List<ImageGetDTO>>(getImage);
+                var imageDTOs = _mapper.Map<List<ImageReadDTO>>(getImage);
 
                 if (!imageDTOs.Any()) return NotFound("Image Empty");
                 return Ok(imageDTOs.Where(image => image.IsDeleted==false));
@@ -47,7 +47,7 @@ namespace ECommerce.API.Controllers
             {
                 var getImage = _context.Images.Find(id);
                 if (getImage == null || getImage.IsDeleted == true) return NotFound("Image not found :(");
-                var imageDTOs = _mapper.Map<ImageGetDTO>(getImage);
+                var imageDTOs = _mapper.Map<ImageReadDTO>(getImage);
                 return Ok(imageDTOs);
             }
             catch
@@ -58,7 +58,7 @@ namespace ECommerce.API.Controllers
 
         //Post Image
         [HttpPost]
-        public IActionResult Post(ImagePostDTO info)
+        public IActionResult Post(ImageCreateUpdateDTO info)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace ECommerce.API.Controllers
                 if (createImage.VegetableId == 0) return BadRequest("Please input vegetable ID");
                 if (checkVegetable == null || checkVegetable.IsDeleted == true) return NotFound("Vegetable not found");
                 var image = _context.Images.Add(createImage);
-                var returnImage = _mapper.Map<ImageGetDTO>(createImage);
+                var returnImage = _mapper.Map<ImageReadDTO>(createImage);
                 _context.SaveChanges();
                 return Ok(returnImage);
             }
