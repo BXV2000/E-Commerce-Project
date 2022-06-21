@@ -117,5 +117,14 @@ namespace ECommerce.API.Controllers
                 return BadRequest("Something went wrong");
             }
         }
+
+        public class ImageModel
+        {
+            public int Id { get; set; }
+            public int VegetableId { get; set; }
+            public string ImageURL { get; set; }
+            public bool IsDeleted { get; set; }
+        }
+
     }
 }
