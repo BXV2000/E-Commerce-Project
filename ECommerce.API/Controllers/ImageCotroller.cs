@@ -56,7 +56,7 @@ namespace ECommerce.API.Controllers
             }
         }
 
-        //Post Image
+        //Create Image
         [HttpPost]
         public IActionResult Post(ImageCreateUpdateDTO info)
         {
@@ -79,24 +79,19 @@ namespace ECommerce.API.Controllers
 
         // Update Image
         [HttpPut("{id}")]
-        public IActionResult Put(int id, ImageModel info)
+        public IActionResult Put(int id, ImageCreateUpdateDTO info)
         {
             try
             {
-                using (var context = new ECommerceDbContext())
-                {
-                    var image = context.Images.Find(id);
-                    if (image == null || image.IsDeleted == true) return NotFound("Image not found");
-                    image.ImageURL = info.ImageURL;
-                    context.Entry(image).State = EntityState.Modified;
-                    context.SaveChanges();
-                    return Ok(new ImageModel
-                    {
-                        Id = image.Id,
-                        VegetableId = image.VegetableId,
-                        ImageURL = image.ImageURL,
-                    });
-                }
+                var checkImage = _context.Images.Find(id);
+                var checkVegetable = _context.Vegetables.Find(info.VegetableId);
+                if (checkImage == null || checkImage.IsDeleted == true) return NotFound("Image not found");
+                if (checkVegetable == null || checkVegetable.IsDeleted == true) return NotFound("Vegetable not found");
+                checkImage.VegetableId = info.VegetableId;
+                checkImage.ImageURL = info.ImageURL;
+                _context.SaveChanges();
+                var returnImage = _mapper.Map<ImageReadDTO>(checkImage);
+                return Ok(returnImage);
             }
             catch
             {
@@ -110,15 +105,12 @@ namespace ECommerce.API.Controllers
         {
             try
             {
-                using (var context = new ECommerceDbContext())
-                {
-                    var image = context.Images.Find(id);
-                    if (image == null || image.IsDeleted == true) return NotFound("Image not found");
-                    image.IsDeleted = true;
-                    context.Entry(image).State = EntityState.Modified;
-                    context.SaveChanges();
-                    return Ok($"Image with id = {id} was deleted ");
-                }
+                var checkImage = _context.Images.Find(id);
+                if (checkImage == null || checkImage.IsDeleted == true) return NotFound("Image not found");
+                checkImage.IsDeleted = true;
+                _context.SaveChanges();
+                var returnImage = _mapper.Map<ImageReadDTO>(checkImage);
+                return Ok(returnImage);
             }
             catch
             {
