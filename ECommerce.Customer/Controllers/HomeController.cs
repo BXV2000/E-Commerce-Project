@@ -1,4 +1,5 @@
-﻿using ECommerce.Customer.Models;
+﻿using ECommerce.API.DTOs;
+using ECommerce.Customer.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -20,6 +21,11 @@ namespace ECommerce.Customer.Controllers
 
         public IActionResult Privacy()
         {
+            return View();
+        }
+        public IActionResult Image()
+        {
+            ImageReadDTO image = new ImageReadDTO();
             return View();
         }
 

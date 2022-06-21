@@ -22,4 +22,8 @@
     <Folder Include="Models\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ECommerce.SharedViewModels\ECommerce.SharedViewModels.csproj" />
+  </ItemGroup>
+
 </Project>
