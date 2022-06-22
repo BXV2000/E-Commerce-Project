@@ -25,7 +25,6 @@ namespace ECommerce.Customer.Controllers
         }
         public IActionResult Image()
         {
-            ImageReadDTO image = new ImageReadDTO();
             return View();
         }
 
