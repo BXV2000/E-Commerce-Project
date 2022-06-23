@@ -71,13 +71,12 @@ namespace ECommerce.Customer.Controllers
         }
 
 
-        // Edit exist Image
+        // Get an Image by ID
         public async Task<IActionResult> Edit(int id)
         {
             ImageCreateUpdateDTO viewImage = new ImageCreateUpdateDTO();
             using (httpClient)
             {
-
                 using (var res = await httpClient.GetAsync(baseAddress + "/Image/" + id))
                 {
                     if (res.StatusCode == System.Net.HttpStatusCode.OK)
@@ -93,6 +92,7 @@ namespace ECommerce.Customer.Controllers
             return View(viewImage);
         }
 
+        // Edit exist Image
         [HttpPost ]
         public async Task<IActionResult> Edit(int id, ImageCreateUpdateDTO info)
         {
@@ -111,9 +111,21 @@ namespace ECommerce.Customer.Controllers
             return View(changeImage);
         }
 
+        // Delete an Image
+        //[HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            using (httpClient)
+            {
+                using(var res = await httpClient.DeleteAsync(baseAddress + "/Image/" + id))
+                {
+                    string apiRes = await res.Content.ReadAsStringAsync();
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
         public ViewResult Error() => View();
-
-
     }
 
    
