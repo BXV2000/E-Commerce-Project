@@ -1,0 +1,27 @@
+﻿@model ECommerce.API.DTOs.ImageCreateUpdateDTO
+
+@{
+    ViewData["Title"] = "Image Edit";
+}
+
+<h2>Images Edit</h2>
+
+<form method="post" asp-action="Edit">
+    <table>
+        @if(Model!=null){
+            <tr>            
+                <td>Vegetable ID </td>
+                <td><input type="text" name="VegetableId" value="@Model.VegetableId"/></td>
+            </tr>
+            <tr>
+                <td>Image URL</td>
+                <td><input type="text" name="ImageURL" value="@Model.ImageURL"/></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Edit"/></td>
+            </tr>
+        }
+
+    </table>
+
+</form>

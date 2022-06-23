@@ -1,0 +1,25 @@
+﻿@model IEnumerable<ECommerce.API.DTOs.ImageCreateUpdateDTO>
+
+@{
+    ViewData["Title"] = "Image Create";
+}
+
+<h2>Images Create</h2>
+
+<form method="post" asp-action="Create">
+    <table>
+        <tr>
+            <td>Vegetable ID</td>
+
+            <td><input type="text" name="VegetableId"/></td>
+        </tr>
+        <tr>
+            <td>Image URL</td>
+            <td><input type="text" name="ImageURL"/></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Create"/></td>
+        </tr>
+    </table>
+
+</form>

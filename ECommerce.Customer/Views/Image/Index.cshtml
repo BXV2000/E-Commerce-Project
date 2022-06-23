@@ -13,13 +13,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                Id
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VegetableId)
+                VegetableId
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImageURL)
+                ImageURL
             </th>
             <th></th>
         </tr>
@@ -29,17 +29,16 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Id)
+                    @item.Id
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.VegetableId)
+                    @item.VegetableId
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ImageURL)
+                    @item.ImageURL
                 </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <td>    
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
