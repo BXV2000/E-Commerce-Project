@@ -1,25 +1,59 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
+let baseURL = "https://localhost:7024/api/Image"
 export class Image extends Component {
-    static displayName = Image.name;
 
-    constructor() {
-        super();
+    
+
+    constructor(props) {
+        super(props);
         this.state = {
-            ImageData:[]
-        }
+            images: []
+        };
     }
+
+    refreshList() {
+        axios.get(baseURL)
+            .then(res => {
+                this.setState({images:res.data})
+            })
+    }
+
+    componentDidMount() {
+       this.refreshList();
+    }
+
+    //componentDidUpdate() {
+    //    this.refreshList();
+    //}
+
+
     render() {
+        const { images } = this.state;
         return (
             <div>
-                <h1>Image</h1>
-
-                <p>This is a simple example of a React component.</p>
-
-                <p aria-live="polite">Current count: <strong>{this.state.currentCount}</strong></p>
-
-                <button className="btn btn-primary" onClick={this.incrementCounter}>Increment</button>
+                <h2>Images List</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Vegetable Id</th>
+                            <th>Image URL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {images.map(img => (
+                            <tr key={img.id}>
+                                <td>{img.id}</td>
+                                <td>{img.vegetableId}</td>
+                                <td>{img.imageURL}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         );
     }
+
 }
