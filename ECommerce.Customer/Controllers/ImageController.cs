@@ -74,55 +74,76 @@ namespace ECommerce.Customer.Controllers
         // Get an Image by ID
         public async Task<IActionResult> Edit(int id)
         {
-            ImageCreateUpdateDTO viewImage = new ImageCreateUpdateDTO();
-            using (httpClient)
+            try
             {
-                using (var res = await httpClient.GetAsync(baseAddress + "/Image/" + id))
+
+                using (httpClient)
                 {
-                    if (res.StatusCode == System.Net.HttpStatusCode.OK)
+                    using (var res = await httpClient.GetAsync(baseAddress + "/Image/" + id))
                     {
-                        string apiResponse = await res.Content.ReadAsStringAsync();
+                        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            string apiResponse = await res.Content.ReadAsStringAsync();
 #pragma warning disable CS8601
-                        viewImage = JsonConvert.DeserializeObject<ImageCreateUpdateDTO>(apiResponse);
+                            changeImage = JsonConvert.DeserializeObject<ImageCreateUpdateDTO>(apiResponse);
 #pragma warning restore CS8601
+                        }
+                        else ViewBag.StatusCode = res.StatusCode;
                     }
-                    else ViewBag.StatusCode = res.StatusCode;
                 }
+                return View(changeImage);
             }
-            return View(viewImage);
+            catch
+            {
+                return RedirectToAction("Error");
+            }
         }
 
         // Edit exist Image
         [HttpPost ]
         public async Task<IActionResult> Edit(int id, ImageCreateUpdateDTO info)
         {
-            using (httpClient)
+            try
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(info), Encoding.UTF8, "application/json");
-                using (var res = await httpClient.PutAsync(baseAddress + "/Image/" + id, content))
+                using (httpClient)
                 {
-                    string apiRes = await res.Content.ReadAsStringAsync();
-                    ViewBag.Result = "Success";
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(info), Encoding.UTF8, "application/json");
+                    using (var res = await httpClient.PutAsync(baseAddress + "/Image/" + id, content))
+                    {
+                        string apiRes = await res.Content.ReadAsStringAsync();
+                        ViewBag.Result = "Success";
 #pragma warning disable CS8601
-                    changeImage = JsonConvert.DeserializeObject<ImageCreateUpdateDTO>(apiRes);
+                        changeImage = JsonConvert.DeserializeObject<ImageCreateUpdateDTO>(apiRes);
 #pragma warning restore CS8601
+                    }
                 }
+                return View(changeImage);
             }
-            return View(changeImage);
+            catch
+            {
+                return RedirectToAction("Error");
+            }
         }
 
         // Delete an Image
         //[HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            using (httpClient)
+            try
             {
-                using(var res = await httpClient.DeleteAsync(baseAddress + "/Image/" + id))
+                using (httpClient)
                 {
-                    string apiRes = await res.Content.ReadAsStringAsync();
+                    using (var res = await httpClient.DeleteAsync(baseAddress + "/Image/" + id))
+                    {
+                        string apiRes = await res.Content.ReadAsStringAsync();
+                    }
                 }
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            catch
+            {
+                return RedirectToAction("Error");
+            }
         }
 
         public ViewResult Error() => View();
