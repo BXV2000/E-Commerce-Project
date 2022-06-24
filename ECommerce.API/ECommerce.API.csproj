@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ECommerce.SharedViewModels\ECommerce.SharedViewModels.csproj" />
+    <ProjectReference Include="..\ECommerce.SharedDataModels\ECommerce.SharedDataModels.csproj" />
   </ItemGroup>
 
 </Project>
