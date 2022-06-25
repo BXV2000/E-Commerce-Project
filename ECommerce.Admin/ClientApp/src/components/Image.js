@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 let baseURL = "https://localhost:7024/api/Image"
 export class Image extends Component {
@@ -34,6 +35,7 @@ export class Image extends Component {
         return (
             <div>
                 <h2>Images List</h2>
+                <Link to="/image-create" >Create Image</Link>
                 <table>
                     <thead>
                         <tr>

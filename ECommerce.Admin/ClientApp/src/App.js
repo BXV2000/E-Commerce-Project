@@ -5,6 +5,7 @@ import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import { Image } from './components/Image';
+import { ImageCreate } from './components/ImageCreate';
 
 import './custom.css'
 
@@ -18,6 +19,7 @@ export default class App extends Component {
         <Route path='/counter' component={Counter} />
         <Route path='/fetch-data' component={FetchData} />
         <Route path='/image' component={Image} />
+        <Route path='/image-create' component={ImageCreate} />
       </Layout>
     );
   }
