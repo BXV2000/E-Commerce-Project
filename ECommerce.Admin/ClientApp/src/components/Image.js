@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import './testStyles.css'
 
 let baseURL = "https://localhost:7024/api/"
 export class Image extends Component {
-
-    
-
     constructor(props) {
         super(props);
         this.state = {
             images: [],
-            message:""
+            message: "",
+            isActive: false,
+            getImage:[]
         };
     }
 
@@ -22,24 +22,44 @@ export class Image extends Component {
             })
     }
 
+    getImageInfo = (id) => {
+        axios.get(baseURL + "Image/" + id)
+            .then(res => {
+                this.setState({ getImage: res.data });
+                this.refs.Id.value = res.data.id
+                this.refs.VegetableId.value = res.data.vegetableId
+                this.refs.ImageURL.value = res.data.imageURL
+            })
+
+    }
+
+    updateImage = () => {
+        let imageInfo = {
+            VegetableId: this.refs.VegetableId.value,
+            ImageURL: this.refs.ImageURL.value
+        };
+        axios.put(baseURL + "Image/" + this.refs.Id.value, imageInfo)
+            .then(res => {
+                this.setState({ message: res.data })
+                alert("Image added Success!");
+            })
+            .catch(error => {
+                this.setState({ message: error.response.data });
+                alert(this.state.message);
+            })
+    }
+
+    deleteImage = (id) => {
+        axios.delete(baseURL + "Image/" + id)
+    }
+
     componentDidMount() {
        this.refreshList();
     }
 
-    deleteImage = (id) => {
-        console.log(id);
-        axios.delete(baseURL +"Image/" + id)
-            .then(res => window.location.assign("/Image"))
+    componentDidUpdate() {
+        this.refreshList();
     }
-
-    //editImage = (id) => {
-    //    window.loacation.assign(baseURL + "Image/" + id)
-    //}
-
-    //componentDidUpdate() {
-    //    this.refreshList();
-    //}
-
 
     render() {
         const { images } = this.state;
@@ -64,13 +84,32 @@ export class Image extends Component {
                                 <td>{img.imageURL}</td>
                                 <td>
                                     <button value={img.id} onClick={event => this.deleteImage(event.target.value)}>Delete</button>
-                                    {/*<button value={img.id} onClick={event => this.deleteImage(event.target.value)}>Edit</button>*/}
-                                    {/*<a href="/edit/{this.value}" value={img.id}>Delete</a>*/}
+                                    <button value={img.id} onClick={event => this.getImageInfo(event.target.value)}>Edit</button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                    <div className="EditImageForm">
+                        <h1> Edit Image </h1>
+                        <table>
+                            <tr>
+                                <td>Id</td>
+                                <input ref="Id" disabled />
+                            </tr>
+                            <tr>
+                            <td>Vegetable Id</td>
+                            <input ref="VegetableId"  />
+                            </tr>
+                            <tr>
+                                <td>Image URL</td>
+                            <input type="text" ref="ImageURL"  />
+                            </tr>
+                            <tr>
+                            <button onClick={this.updateImage} >Update</button>
+                            </tr>
+                        </table>
+                    </div>
             </div>
         );
     }
