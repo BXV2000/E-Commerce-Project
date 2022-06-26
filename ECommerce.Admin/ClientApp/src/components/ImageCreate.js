@@ -9,33 +9,52 @@ export class ImageCreate extends Component {
     constructor(props) {
         super(props);
         this.state = {
-        }
+            message:"",
+        };
     }
+
+    onCreateImage = () => {
+        let imageInfo = {
+            VegetableId: this.refs.VegetableId.value,
+            ImageURL: this.refs.ImageURL.value
+        };
+        //console.log(imageInfo)
+        axios.post(baseURL, imageInfo)
+            .then(res => {
+                this.setState({ message: res.data })
+                alert("Image added Success!");
+            })
+            .catch(error => {
+                this.setState({ message: error.response.data });
+                alert(this.state.message);
+            })     
+    }
+
+    
+
     render() {
         return (
-          
             <div>
                 <h2>Images Create</h2>
-                <form method="post">
-                    <table>
-                        <thead>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Vegetable Id</td>
-                                <td><input type="text" name="VegetableId"  /></td>
-                            </tr>
-                            <tr>
-                                <td>Image URL</td>
-                                <td><input type="text" name="ImageURL"/></td>
-                            </tr>
-                            <tr>
-                                <td><input type="submit" /></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
-                <button >Test</button>
+
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Vegetable Id</td>
+                            <td><input type="text" ref="VegetableId"  /></td>
+                        </tr>
+                        <tr>
+                            <td>Image URL</td>
+                            <td><input type="text" ref="ImageURL"/></td>
+                        </tr>
+                        <tr>
+                            <td><button onClick={this.onCreateImage}>Submit</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
             </div>
         );
     }

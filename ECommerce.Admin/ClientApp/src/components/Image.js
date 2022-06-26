@@ -42,6 +42,7 @@ export class Image extends Component {
                             <th>Id</th>
                             <th>Vegetable Id</th>
                             <th>Image URL</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,6 +51,10 @@ export class Image extends Component {
                                 <td>{img.id}</td>
                                 <td>{img.vegetableId}</td>
                                 <td>{img.imageURL}</td>
+                                <td>
+                                    {/*<button value={img.id} >Delete</button>*/}
+                                    {/*<a href="/edit/{this.value}" value={img.id}>Delete</a>*/}
+                                </td>
                             </tr>
                         ))}
                     </tbody>
