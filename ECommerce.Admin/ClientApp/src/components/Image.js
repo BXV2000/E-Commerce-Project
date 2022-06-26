@@ -41,7 +41,7 @@ export class Image extends Component {
         axios.put(baseURL + "Image/" + this.refs.Id.value, imageInfo)
             .then(res => {
                 this.setState({ message: res.data })
-                alert("Image added Success!");
+                alert("Image update Success!");
             })
             .catch(error => {
                 this.setState({ message: error.response.data });

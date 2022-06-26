@@ -22,7 +22,7 @@ export class ImageCreate extends Component {
         axios.post(baseURL+"Image", imageInfo)
             .then(res => {
                 this.setState({ message: res.data })
-                alert("Image added Success!");
+                alert("Image created Success!");
             })
             .catch(error => {
                 this.setState({ message: error.response.data });
@@ -50,7 +50,7 @@ export class ImageCreate extends Component {
                             <td><input type="text" ref="ImageURL"/></td>
                         </tr>
                         <tr>
-                            <td><button onClick={this.onCreateImage}>Submit</button></td>
+                            <td><button onClick={this.onCreateImage}>Create</button></td>
                         </tr>
                     </tbody>
                 </table>
