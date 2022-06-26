@@ -19,7 +19,7 @@ export class ImageCreate extends Component {
             ImageURL: this.refs.ImageURL.value
         };
         //console.log(imageInfo)
-        axios.post(baseURL+"Image", imageInfo)
+        axios.post(baseURL, imageInfo)
             .then(res => {
                 this.setState({ message: res.data })
                 alert("Image added Success!");
