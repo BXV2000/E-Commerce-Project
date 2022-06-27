@@ -6,5 +6,7 @@
         public int VegetableId { get; set; }
         public string ImageURL { get; set; }
         public bool IsDeleted { get; set; }
+
+
     }
 }

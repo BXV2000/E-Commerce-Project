@@ -4,5 +4,7 @@
     {
         public int VegetableId { get; set; }
         public string ImageURL { get; set; }
+
+
     }
 }

@@ -11,6 +11,8 @@ namespace ECommerce.API.Profiles
             //Soure -> Destination
             CreateMap<Image, ImageReadDTO>();
             CreateMap<ImageCreateUpdateDTO, Image>();
+            CreateMap<ImageReadDTO, ImageCreateUpdateDTO>();
+
         }
     }
 }

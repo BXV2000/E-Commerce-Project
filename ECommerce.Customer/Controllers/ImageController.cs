@@ -1,6 +1,9 @@
-﻿using ECommerce.API.DTOs;
+﻿using AutoMapper;
+using ECommerce.API.DTOs;
+using ECommerce.Customer.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Refit;
 using System.Diagnostics;
 using System.Text;
 
@@ -14,27 +17,28 @@ namespace ECommerce.Customer.Controllers
         List<ImageReadDTO> viewImages = new List<ImageReadDTO>();
         ImageCreateUpdateDTO changeImage = new ImageCreateUpdateDTO();
         List<ImageCreateUpdateDTO> changeImages = new List<ImageCreateUpdateDTO>();
+        IImageService imageService =RestService.For<IImageService>("https://localhost:7024/api");
+        private readonly IMapper _mapper;
 
 
-        public ImageController()
+        public ImageController(IMapper mapper)
         {
             httpClient = new HttpClient();
+            _mapper = mapper;
         }
 
         // Get all Images
         public async Task<IActionResult> Index()
         {
-            using (httpClient)
+            try
             {
-                using (var res = await httpClient.GetAsync(baseAddress + "/Image"))
-                {
-                    string apiRes = await res.Content.ReadAsStringAsync();
-#pragma warning disable CS8601
-                    viewImages = JsonConvert.DeserializeObject<List<ImageReadDTO>>(apiRes);
-#pragma warning restore CS8601
-                }
-            };
-            return View(viewImages);
+                viewImages = await imageService.GetImages();
+                return View(viewImages);
+            }
+            catch 
+            {
+                return RedirectToAction("Error");
+            }
         }
 
         public ViewResult Create() => View();
@@ -45,24 +49,8 @@ namespace ECommerce.Customer.Controllers
         {
             try
             {
-                using (httpClient)
-                {
-                    StringContent content = new StringContent(JsonConvert.SerializeObject(info), Encoding.UTF8, "application/json");
-                    using (var res = await httpClient.PostAsync(baseAddress + "/Image", content))
-                    {
-                        string apiRes = await res.Content.ReadAsStringAsync();
-#pragma warning disable CS8601
-                        viewImage = JsonConvert.DeserializeObject<ImageReadDTO>(apiRes);
-#pragma warning restore CS8601
-                        if (res.IsSuccessStatusCode)
-                        {
-                            return RedirectToAction("Index");
-                        }
-                        return RedirectToAction("Error");
-                    }
-
-                }
-                return View();
+                await imageService.CreateImage(info);
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -72,25 +60,13 @@ namespace ECommerce.Customer.Controllers
 
 
         // Get an Image by ID
-        public async Task<IActionResult> Edit(int id)
+        public async  Task<IActionResult> Edit(int id)
         {
             try
-            {
-
-                using (httpClient)
-                {
-                    using (var res = await httpClient.GetAsync(baseAddress + "/Image/" + id))
-                    {
-                        if (res.StatusCode == System.Net.HttpStatusCode.OK)
-                        {
-                            string apiResponse = await res.Content.ReadAsStringAsync();
-#pragma warning disable CS8601
-                            changeImage = JsonConvert.DeserializeObject<ImageCreateUpdateDTO>(apiResponse);
-#pragma warning restore CS8601
-                        }
-                        else ViewBag.StatusCode = res.StatusCode;
-                    }
-                }
+            { 
+                viewImage =await imageService.GetImage(id);        
+                changeImage.ImageURL=viewImage.ImageURL;
+                changeImage.VegetableId=viewImage.VegetableId;
                 return View(changeImage);
             }
             catch
@@ -105,19 +81,8 @@ namespace ECommerce.Customer.Controllers
         {
             try
             {
-                using (httpClient)
-                {
-                    StringContent content = new StringContent(JsonConvert.SerializeObject(info), Encoding.UTF8, "application/json");
-                    using (var res = await httpClient.PutAsync(baseAddress + "/Image/" + id, content))
-                    {
-                        string apiRes = await res.Content.ReadAsStringAsync();
-                        ViewBag.Result = "Success";
-#pragma warning disable CS8601
-                        changeImage = JsonConvert.DeserializeObject<ImageCreateUpdateDTO>(apiRes);
-#pragma warning restore CS8601
-                    }
-                }
-                return View(changeImage);
+                await imageService.UpdateImage(id, info);
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -131,13 +96,7 @@ namespace ECommerce.Customer.Controllers
         {
             try
             {
-                using (httpClient)
-                {
-                    using (var res = await httpClient.DeleteAsync(baseAddress + "/Image/" + id))
-                    {
-                        string apiRes = await res.Content.ReadAsStringAsync();
-                    }
-                }
+                await imageService.DeleteImage(id);
                 return RedirectToAction("Index");
             }
             catch

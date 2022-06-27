@@ -1,7 +1,13 @@
+using ECommerce.Customer.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Refit;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
 var app = builder.Build();
 
