@@ -9,9 +9,10 @@ namespace ECommerce.API.Profiles
         public ImageProfile()
         {
             //Soure -> Destination
-            CreateMap<Image, ImageReadDTO>();
-            CreateMap<ImageCreateUpdateDTO, Image>();
-            CreateMap<ImageReadDTO, ImageCreateUpdateDTO>();
+            CreateMap<Image, ImageDTO>();
+            CreateMap<ImageDTO, Image>()
+                .ForMember(dest => dest.Id, o=>o.Ignore())
+                .ForMember(dest => dest.IsDeleted, o => o.Ignore());
 
         }
     }

@@ -13,8 +13,8 @@ namespace ECommerce.Customer.Controllers
     {
         Uri baseAddress = new Uri("https://localhost:7024/api");
         HttpClient httpClient;
-        ImageReadDTO viewImage = new ImageReadDTO();
-        List<ImageReadDTO> viewImages = new List<ImageReadDTO>();
+        ImageDTO viewImage = new ImageDTO();
+        List<ImageDTO> viewImages = new List<ImageDTO>();
         ImageCreateUpdateDTO changeImage = new ImageCreateUpdateDTO();
         List<ImageCreateUpdateDTO> changeImages = new List<ImageCreateUpdateDTO>();
         IImageService imageService =RestService.For<IImageService>("https://localhost:7024/api");

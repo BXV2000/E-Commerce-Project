@@ -7,11 +7,11 @@ namespace ECommerce.Customer.Services
     {
         // Get all images
         [Get("/Image")]
-        Task<List<ImageReadDTO>> GetImages();
+        Task<List<ImageDTO>> GetImages();
 
         // Get image by id
         [Get("/Image/{id}")]
-        Task<ImageReadDTO> GetImage(int id);
+        Task<ImageDTO> GetImage(int id);
 
         // Add image
         [Post("/Image")]
