@@ -15,11 +15,11 @@ namespace ECommerce.Customer.Services
 
         // Add image
         [Post("/Image")]
-        Task CreateImage([Body] ImageCreateUpdateDTO image);
+        Task CreateImage([Body] ImageDTO image);
 
         // Update image
         [Put("/Image/{id}")]
-        Task UpdateImage(int id, [Body] ImageCreateUpdateDTO image);
+        Task UpdateImage(int id, [Body] ImageDTO image);
 
         // Delete image
         [Delete("/Image/{id}")]

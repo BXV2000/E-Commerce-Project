@@ -15,8 +15,6 @@ namespace ECommerce.Customer.Controllers
         HttpClient httpClient;
         ImageDTO viewImage = new ImageDTO();
         List<ImageDTO> viewImages = new List<ImageDTO>();
-        ImageCreateUpdateDTO changeImage = new ImageCreateUpdateDTO();
-        List<ImageCreateUpdateDTO> changeImages = new List<ImageCreateUpdateDTO>();
         IImageService imageService =RestService.For<IImageService>("https://localhost:7024/api");
         private readonly IMapper _mapper;
 
@@ -45,7 +43,7 @@ namespace ECommerce.Customer.Controllers
 
         // Create new Image
         [HttpPost]
-        public async Task<IActionResult> Create(ImageCreateUpdateDTO info)
+        public async Task<IActionResult> Create(ImageDTO info)
         {
             try
             {
@@ -65,9 +63,7 @@ namespace ECommerce.Customer.Controllers
             try
             { 
                 viewImage =await imageService.GetImage(id);        
-                changeImage.ImageURL=viewImage.ImageURL;
-                changeImage.VegetableId=viewImage.VegetableId;
-                return View(changeImage);
+                return View(viewImage);
             }
             catch
             {
@@ -77,7 +73,7 @@ namespace ECommerce.Customer.Controllers
 
         // Edit exist Image
         [HttpPost ]
-        public async Task<IActionResult> Edit(int id, ImageCreateUpdateDTO info)
+        public async Task<IActionResult> Edit(int id, ImageDTO info)
         {
             try
             {
