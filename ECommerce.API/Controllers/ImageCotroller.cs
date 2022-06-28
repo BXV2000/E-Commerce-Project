@@ -5,6 +5,7 @@ using ECommerce.API.Data;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using ECommerce.API.DTOs;
+using ECommerce.API.Interfaces;
 
 namespace ECommerce.API.Controllers
 {
@@ -12,23 +13,23 @@ namespace ECommerce.API.Controllers
     [ApiController]
     public class ImageController : ControllerBase
     {
-        private readonly ECommerceDbContext _context;
         private readonly IMapper _mapper;
-        public ImageController(ECommerceDbContext context, IMapper mapper)
+        private readonly IImageRepository _image;
+        public ImageController(IImageRepository image, IMapper mapper )
         {
-            _context = context;
             _mapper = mapper;
+            _image = image;
         }
 
         //Get all Image
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var getImage = _context.Images.ToList();
-                var imageDTOs = _mapper.Map<List<ImageDTO>>(getImage);
-
+                var getImages = await _image.GetAsync();
+                var imageDTOs = _mapper.Map<List<ImageDTO>>(getImages);
+                
                 if (!imageDTOs.Any()) return NotFound("Image Empty");
                 return Ok(imageDTOs.Where(image => image.IsDeleted==false));
             }
@@ -41,11 +42,11 @@ namespace ECommerce.API.Controllers
 
         //Get one Image
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
             try
             {
-                var getImage = _context.Images.Find(id);
+                var getImage = await _image.GetByIdAsync(id);
                 if (getImage == null || getImage.IsDeleted == true) return NotFound("Image not found :(");
                 var imageDTOs = _mapper.Map<ImageDTO>(getImage);
                 return Ok(imageDTOs);
@@ -58,17 +59,16 @@ namespace ECommerce.API.Controllers
 
         //Create Image
         [HttpPost]
-        public IActionResult Post(ImageDTO info)
+        public async Task<IActionResult> Post(ImageDTO info)
         {
             try
             {
-                var checkVegetable = _context.Vegetables.Find(info.VegetableId);
+                //var checkVegetable = _context.Vegetables.Find(info.VegetableId);
                 var createImage = _mapper.Map<Image>(info);
-                if (createImage.VegetableId == 0) return BadRequest("Please input vegetable ID");
-                if (checkVegetable == null || checkVegetable.IsDeleted == true) return NotFound("Vegetable not found");
-                var image = _context.Images.Add(createImage);
-                var returnImage = _mapper.Map<ImageDTO>(createImage);
-                _context.SaveChanges();
+                //if (createImage.VegetableId == 0) return BadRequest("Please input vegetable ID");
+                //if (checkVegetable == null || checkVegetable.IsDeleted == true) return NotFound("Vegetable not found");
+                var image = await _image.PostAsync(createImage);
+                var returnImage = _mapper.Map<ImageDTO>(image);
                 return Ok(returnImage);
             }
             catch
@@ -79,18 +79,15 @@ namespace ECommerce.API.Controllers
 
         // Update Image
         [HttpPut("{id}")]
-        public IActionResult Put(int id, ImageDTO info)
+        public async Task<IActionResult> Put(int id, ImageDTO info)
         {
             try
             {
-                var checkImage = _context.Images.Find(id);
-                var checkVegetable = _context.Vegetables.Find(info.VegetableId);
-                if (checkImage == null || checkImage.IsDeleted == true) return NotFound("Image not found");
-                if (checkVegetable == null || checkVegetable.IsDeleted == true) return NotFound("Vegetable not found");
-                checkImage.VegetableId = info.VegetableId;
-                checkImage.ImageURL = info.ImageURL;
-                _context.SaveChanges();
-                var returnImage = _mapper.Map<ImageDTO>(checkImage);
+                var image = _mapper.Map<Image>(info);
+                var putImage = await _image.PutAsync(id, image);
+                //var checkVegetable = _context.Vegetables.Find(info.VegetableId);
+                //if (checkVegetable == null || checkVegetable.IsDeleted == true) return NotFound("Vegetable not found");
+                var returnImage = _mapper.Map<ImageDTO>(putImage);
                 return Ok(returnImage);
             }
             catch
@@ -101,16 +98,14 @@ namespace ECommerce.API.Controllers
 
         // Delete Image
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                var checkImage = _context.Images.Find(id);
+                var checkImage = await _image.GetByIdAsync(id);
                 if (checkImage == null || checkImage.IsDeleted == true) return NotFound("Image not found");
-                checkImage.IsDeleted = true;
-                _context.SaveChanges();
-                var returnImage = _mapper.Map<ImageDTO>(checkImage);
-                return Ok(returnImage);
+                await _image.DeleteAsync(id);
+                return Ok("Image Deleted");
             }
             catch
             {

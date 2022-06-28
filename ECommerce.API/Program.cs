@@ -1,4 +1,6 @@
 using ECommerce.API.Data;
+using ECommerce.API.Data.Repositories;
+using ECommerce.API.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ECommerceDbContext>(options => options.UseSqlServer("Data Source=DESKTOP-FNO20ES\\SQLEXPRESS;Initial Catalog=ECommerceDb;Integrated Security=True"));
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
 
 // Add AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
