@@ -1,41 +1,27 @@
-﻿using AutoMapper;
+using AutoMapper;
 using ECommerce.API.Controllers;
-using ECommerce.API.Data;
-using ECommerce.API.Models;
-using Microsoft.EntityFrameworkCore;
+using ECommerce.API.Interfaces;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerce.API.Test
 {
     public class ImageControllerTest
     {
-        private static IMapper _mapper;
-        [Fact]
-        public void GetImage_WhenSuccess_ReturnOk()
+        private readonly Mock<IImageRepository> _imageRepositoryMock;
+        private readonly IMapper _mapper;
+        private readonly ImageController _controller;
+
+        public ImageControllerTest()
         {
-            //Arrange
-            var mockSet = new Mock<DbSet<Image>>();
-            var mockContext = new Mock<ECommerceDbContext>();
-            mockContext.SetupGet(x => x.Images).Returns(mockSet.Object);
+            _imageRepositoryMock = new Mock<IImageRepository>();
+            _controller = new ImageController(_imageRepositoryMock.Object, _mapper);
+        }
 
-
-            var controller = new ImageController(mockContext.Object,_mapper);
-
-            //Act
-            var result = controller.Get();
-
-
-            //Assert
+        [Fact]
+        public async Task GetImage_WhenSuccess_ReturnOk()
+        {
+            var result = _controller.Get();
             Assert.NotNull(result);
         }
-        public void GetImage_WhenError_ReturnErrorMessage()
-        {
-        }
     }
-   
 }
