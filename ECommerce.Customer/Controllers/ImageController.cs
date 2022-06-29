@@ -2,27 +2,20 @@
 using ECommerce.API.DTOs;
 using ECommerce.Customer.Services;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Refit;
-using System.Diagnostics;
-using System.Text;
 
 namespace ECommerce.Customer.Controllers
 {
     public class ImageController : Controller
     {
-        Uri baseAddress = new Uri("https://localhost:7024/api");
-        HttpClient httpClient;
+
         ImageDTO viewImage = new ImageDTO();
         List<ImageDTO> viewImages = new List<ImageDTO>();
         IImageService imageService =RestService.For<IImageService>("https://localhost:7024/api");
-        private readonly IMapper _mapper;
 
 
         public ImageController(IMapper mapper)
         {
-            httpClient = new HttpClient();
-            _mapper = mapper;
         }
 
         // Get all Images
