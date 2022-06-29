@@ -4,6 +4,9 @@ using ECommerce.API.Models;
 using ECommerce.API.Data;
 using Microsoft.EntityFrameworkCore;
 using static ECommerce.API.Controllers.ImageController;
+using AutoMapper;
+using ECommerce.API.Interfaces;
+using ECommerce.SharedDataModels;
 
 namespace ECommerce.API.Controllers
 {
@@ -11,47 +14,32 @@ namespace ECommerce.API.Controllers
     [ApiController]
     public class VegetableController : ControllerBase
     {
-        private readonly ECommerceDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly IVegetableRepository _vegetable;
 
-        public VegetableController(ECommerceDbContext context)
+        public VegetableController(IVegetableRepository vegetable, IMapper mapper)
         {
-            _context = context;
+            _vegetable = vegetable;
+            _mapper = mapper;
         }
 
         //Get all Vegetable
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var getVegetable = _context.Vegetables.
-                    Include(vegetable => vegetable.Images).
-                    Select(vegetable => new VegetableModel
-                    {
-                        Id = vegetable.Id,
-                        CategoryId = vegetable.CategoryId,
-                        Name = vegetable.Name,
-                        MFGDate = vegetable.MFGDate,
-                        EXPDate = vegetable.EXPDate,
-                        Price = vegetable.Price,
-                        Stock = vegetable.Stock,
-                        IsDeleted = vegetable.IsDeleted,
-                        Images = vegetable.Images.Select(image => new ImageModel
-                        {
-                            Id=image.Id,
-                            ImageURL = image.ImageURL,
-                            VegetableId = image.VegetableId,
-                        }).ToList(),
-                    }).
-                    ToList();
-                //var vegetableWithImage = _context.Vegetables
-                if (!getVegetable.Any()) return NotFound("Vegetable Empty");
-                return Ok(getVegetable);
+                var getVegetables = await _vegetable.GetAsync();
+                if (!getVegetables.Any()) return NotFound("Vegies Empty");
+                var vegetableDTOs = _mapper.Map<List<VegetableDTO>>(getVegetables);
+                return Ok(vegetableDTOs.Where(image => image.IsDeleted == false));
             }
             catch
             {
                 return BadRequest("Something went wrong");
             }
+
+            
         }
 
         //Get one Vegetable
@@ -60,19 +48,10 @@ namespace ECommerce.API.Controllers
         {
             try
             {
-                var getVegetable = _context.Vegetables.Find(id);
-                if (getVegetable == null || getVegetable.IsDeleted == true) return NotFound("Vegetable not found :(");
-                return Ok(new VegetableModel
-                {
-                    Id = getVegetable.Id,
-                    CategoryId = getVegetable.CategoryId,
-                    Name = getVegetable.Name,
-                    MFGDate = getVegetable.MFGDate,
-                    EXPDate = getVegetable.EXPDate,
-                    Price = getVegetable.Price,
-                    Stock = getVegetable.Stock,
-                    IsDeleted = getVegetable.IsDeleted
-                });
+                var getVegetable = await _vegetable.GetByIdAsync(id);
+                if (getVegetable == null || getVegetable.IsDeleted == true) return NotFound("Vegie not found :(");
+                var vegetableDTOs = _mapper.Map<VegetableDTO>(getVegetable);
+                return Ok(vegetableDTOs);
             }
             catch
             {
@@ -80,37 +59,16 @@ namespace ECommerce.API.Controllers
             }
         }
 
-        //Post Vegetable
+        ////Post Vegetable
         [HttpPost]
-        public IActionResult Post(VegetableModel info)
+        public async Task<IActionResult> Post(VegetableDTO info)
         {
             try
             {
-                var checkCategory = _context.Categories.Find(info.CategoryId);
-                var vegetable = new Vegetable
-                {
-                    CategoryId = info.CategoryId,
-                    Name = info.Name,
-                    MFGDate = info.MFGDate,
-                    EXPDate = info.EXPDate,
-                    Price = info.Price,
-                    Stock = info.Stock,
-                };
-                if (vegetable.CategoryId == 0) return BadRequest("Please input category ID");
-                if (checkCategory == null || checkCategory.IsDeleted == true) return NotFound("Category not found");
-                _context.Vegetables.Add(vegetable);
-                _context.SaveChanges();
-                return Ok(new VegetableModel
-                {
-                    Id = vegetable.Id,
-                    CategoryId = vegetable.CategoryId,
-                    Name = vegetable.Name,
-                    MFGDate = vegetable.MFGDate,
-                    EXPDate = vegetable.EXPDate,
-                    Price = vegetable.Price,
-                    Stock = vegetable.Stock,
-                    IsDeleted = vegetable.IsDeleted
-                });
+                var createVegetable = _mapper.Map<Vegetable>(info);
+                var vegetable = await _vegetable.PostAsync(createVegetable);
+                var returnImage = _mapper.Map<VegetableDTO>(vegetable);
+                return Ok(returnImage);
             }
             catch
             {
@@ -118,57 +76,57 @@ namespace ECommerce.API.Controllers
             }
         }
 
-        //Update Vegetable
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, VegetableModel info)
-        {
-            try
-            {
-                using (var context = new ECommerceDbContext())
-                {
-                    var vegetable = context.Vegetables.Find(id);
-                    var checkCategory = context.Categories.Find(info.CategoryId);
-                    if (vegetable == null || vegetable.IsDeleted == true) return NotFound("Vegetable not found");
-                    if (checkCategory == null || checkCategory.IsDeleted == true) return NotFound("Category not found");
-                    vegetable.CategoryId = info.CategoryId;
-                    vegetable.Name = info.Name;
-                    vegetable.MFGDate = info.MFGDate;
-                    vegetable.EXPDate = info.EXPDate;
-                    vegetable.Price = info.Price;
-                    vegetable.Stock = info.Stock;
-                    context.Entry(vegetable).State = EntityState.Modified;
-                    context.SaveChanges();
-                    return Ok(new VegetableModel
-                    {
-                        Id = vegetable.Id,
-                        CategoryId = vegetable.CategoryId,
-                        Name = vegetable.Name,
-                        MFGDate = vegetable.MFGDate,
-                        EXPDate = vegetable.EXPDate,
-                        Price = vegetable.Price,
-                        Stock = vegetable.Stock,
-                        IsDeleted = vegetable.IsDeleted
-                    });
-                }
-            }
-            catch
-            {
-                return BadRequest("Something went wrong");
-            }
-        }
+        ////Update Vegetable
+        //[HttpPut("{id}")]
+        //public IActionResult Put(int id, VegetableModel info)
+        //{
+        //    try
+        //    {
+        //        using (var context = new ECommerceDbContext())
+        //        {
+        //            var vegetable = context.Vegetables.Find(id);
+        //            var checkCategory = context.Categories.Find(info.CategoryId);
+        //            if (vegetable == null || vegetable.IsDeleted == true) return NotFound("Vegetable not found");
+        //            if (checkCategory == null || checkCategory.IsDeleted == true) return NotFound("Category not found");
+        //            vegetable.CategoryId = info.CategoryId;
+        //            vegetable.Name = info.Name;
+        //            vegetable.MFGDate = info.MFGDate;
+        //            vegetable.EXPDate = info.EXPDate;
+        //            vegetable.Price = info.Price;
+        //            vegetable.Stock = info.Stock;
+        //            context.Entry(vegetable).State = EntityState.Modified;
+        //            context.SaveChanges();
+        //            return Ok(new VegetableModel
+        //            {
+        //                Id = vegetable.Id,
+        //                CategoryId = vegetable.CategoryId,
+        //                Name = vegetable.Name,
+        //                MFGDate = vegetable.MFGDate,
+        //                EXPDate = vegetable.EXPDate,
+        //                Price = vegetable.Price,
+        //                Stock = vegetable.Stock,
+        //                IsDeleted = vegetable.IsDeleted
+        //            });
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        return BadRequest("Something went wrong");
+        //    }
+        //}
 
-        public class VegetableModel
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public int CategoryId { get; set; }
-            public DateTime MFGDate { get; set; }
-            public DateTime EXPDate { get; set; }
-            public decimal Price { get; set; }
-            public int Stock { get; set; }
-            public bool IsDeleted { get; set; }
-            public List<ImageModel> Images { get; set; } = new List<ImageModel>();
-        }
+        //public class VegetableModel
+        //{
+        //    public int Id { get; set; }
+        //    public string Name { get; set; }
+        //    public int CategoryId { get; set; }
+        //    public DateTime MFGDate { get; set; }
+        //    public DateTime EXPDate { get; set; }
+        //    public decimal Price { get; set; }
+        //    public int Stock { get; set; }
+        //    public bool IsDeleted { get; set; }
+        //    public List<ImageModel> Images { get; set; } = new List<ImageModel>();
+        //}
 
     }
 }

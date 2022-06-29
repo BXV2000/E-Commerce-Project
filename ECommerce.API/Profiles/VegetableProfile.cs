@@ -11,7 +11,8 @@ namespace ECommerce.API.Profiles
             CreateMap<Vegetable, VegetableDTO>();
             CreateMap<VegetableDTO, Vegetable>()
                 .ForMember(dest => dest.Id, o => o.Ignore())
-                .ForMember(dest => dest.IsDeleted, o => o.Ignore());
+                .ForMember(dest => dest.IsDeleted, o => o.Ignore())
+                .ForMember(dest => dest.Images, o => o.Ignore());
         }
     }
 }

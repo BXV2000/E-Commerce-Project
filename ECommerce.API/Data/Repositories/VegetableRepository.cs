@@ -8,27 +8,34 @@ namespace ECommerce.API.Data.Repositories
     {
         private readonly ECommerceDbContext _context;
 
+        public VegetableRepository(ECommerceDbContext context)
+        {
+            _context = context;
+        }
+
         public Task DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Vegetable>> GetAsync()
+        public async Task<List<Vegetable>> GetAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Vegetables.ToListAsync();
         }
 
-        public Task<Vegetable> GetByIdAsync(int id)
+        public async Task<Vegetable> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Vegetables.FirstOrDefaultAsync(image => image.Id == id);
         }
 
-        public Task<Vegetable> PostAsync(Vegetable image)
+        public async Task<Vegetable> PostAsync(Vegetable vegetable)
         {
-            throw new NotImplementedException();
+            _context.Vegetables.Add(vegetable);
+            await _context.SaveChangesAsync();
+            return vegetable;
         }
 
-        public Task<Vegetable> PutAsync(int id, Vegetable image)
+        public Task<Vegetable> PutAsync(int id, Vegetable vegetable)
         {
             throw new NotImplementedException();
         }

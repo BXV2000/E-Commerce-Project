@@ -17,6 +17,6 @@ namespace ECommerce.SharedDataModels
         public decimal Price { get; set; }
         public int Stock { get; set; }
         public bool IsDeleted { get; set; }
-        public List<ImageDTO> ImageList { get; set; }
+        public List<ImageDTO> Images { get; set; }
     }
 }

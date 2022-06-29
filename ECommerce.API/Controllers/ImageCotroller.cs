@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ECommerce.API.Models;
-using ECommerce.API.Data;
-using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using ECommerce.API.DTOs;
 using ECommerce.API.Interfaces;
@@ -64,9 +61,9 @@ namespace ECommerce.API.Controllers
             try
             {
                 //var checkVegetable = _context.Vegetables.Find(info.VegetableId);
-                var createImage = _mapper.Map<Image>(info);
                 //if (createImage.VegetableId == 0) return BadRequest("Please input vegetable ID");
                 //if (checkVegetable == null || checkVegetable.IsDeleted == true) return NotFound("Vegetable not found");
+                var createImage = _mapper.Map<Image>(info);
                 var image = await _image.PostAsync(createImage);
                 var returnImage = _mapper.Map<ImageDTO>(image);
                 return Ok(returnImage);
