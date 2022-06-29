@@ -1,5 +1,6 @@
 using AutoMapper;
 using ECommerce.API.Controllers;
+using ECommerce.API.DTOs;
 using ECommerce.API.Interfaces;
 using Moq;
 
@@ -18,10 +19,21 @@ namespace ECommerce.API.Test
         }
 
         [Fact]
-        public async Task GetImage_WhenSuccess_ReturnOk()
+        public async Task PostImage_WhenSuccess_ReturnOk()
         {
-            var result = _controller.Get();
-            Assert.NotNull(result);
+            // Arrange
+            ImageDTO testImage = new ImageDTO()
+            {
+                Id = 0,
+                VegetableId = 1,
+                ImageURL = "Something",
+                IsDeleted = false,
+            };
+            // Act
+            var createdResponse = await _controller.Post(testImage);
+            // Assert
+            Assert.IsType<ImageDTO>(createdResponse);
+
         }
     }
 }
