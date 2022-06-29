@@ -8,7 +8,7 @@ namespace ECommerce.Customer.Controllers
 {
     public class VegetableController : Controller
     {
-        VegetableDTO viewVegetale = new VegetableDTO();
+        VegetableDTO viewVegetable = new VegetableDTO();
         List<VegetableDTO> viewVegetables = new List<VegetableDTO>();
         IVegetableService vegetableService =RestService.For<IVegetableService>("https://localhost:7024/api");
 

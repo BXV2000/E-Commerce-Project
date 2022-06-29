@@ -6,23 +6,23 @@ namespace ECommerce.Customer.Services
     public interface IVegetableService
     {
         // Get all images
-        [Get("/Image")]
+        [Get("/Vegetable")]
         Task<List<VegetableDTO>> GetVegetables();
 
         // Get image by id
-        [Get("/Image/{id}")]
+        [Get("/Vegetable/{id}")]
         Task<VegetableDTO> GetVegetable(int id);
 
         // Add image
-        [Post("/Image")]
+        [Post("/Vegetable")]
         Task CreateImage([Body] VegetableDTO image);
 
         //// Update image
-        //[Put("/Image/{id}")]
+        //[Put("/Vegetable/{id}")]
         //Task UpdateImage(int id, [Body] ImageDTO image);
 
         //// Delete image
-        //[Delete("/Image/{id}")]
+        //[Delete("/Vegetable/{id}")]
         //Task DeleteImage(int id);
     }
 }
