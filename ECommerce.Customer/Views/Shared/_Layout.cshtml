@@ -10,6 +10,7 @@
     <script src="https://kit.fontawesome.com/179bca1fd6.js" crossorigin="anonymous"></script>    
     <link rel="stylesheet" href="~/css/HomePage.css"/>
     <link rel="stylesheet" href="~/css/Navbar.css"/>
+    <link rel="stylesheet" href="~/css/Footer.css"/>
 </head>
 <body>
     <header>
@@ -42,9 +43,19 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - ECommerce.Customer - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class=" footer text-muted">
+        <div class="footer-container">
+            
+            <a class="navbar-link" asp-area="" asp-controller="Home" asp-action="Index"><img class="footer-logo-img" src="/Images/NavbarLogo.png" alt="navber-logo-img"/></a> 
+            <div class="footer-links">
+                <a class="navbar-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a> 
+                <a class="navbar-link" asp-area="" asp-controller="Home" asp-action="Index">Shop</a> 
+                <a class="navbar-link" asp-area="" asp-controller="Home" asp-action="Index">About Us</a> 
+                <a class="navbar-link" asp-area="" asp-controller="Home" asp-action="Privacy">Contacts</a>                    
+                <a class="navbar-link" asp-area="" asp-controller="Image" asp-action="Index">Image</a>
+                <a class="navbar-link" asp-area="" asp-controller="Vegetable" asp-action="Index">Product</a>
+            </div>
+            <p>Copyright © 2022 by VINZ. All Rights Reserved.</p>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

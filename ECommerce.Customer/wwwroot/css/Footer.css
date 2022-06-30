@@ -1,0 +1,16 @@
+﻿.footer-container {
+    margin-top:50px;
+    padding:50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color:rgba(250, 244, 211,01.5);
+}
+
+.footer-logo-img{
+    max-width:200px;
+}
+
+.footer-container p{
+    padding-top:50px;
+}
