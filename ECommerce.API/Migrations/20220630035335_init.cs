@@ -1,11 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace ECommerce.API.Migrations
 {
-    public partial class reinit : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -72,22 +71,6 @@ namespace ECommerce.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Ratings",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
-                    VegetableId = table.Column<int>(type: "int", nullable: false),
-                    RatingNumber = table.Column<double>(type: "float", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Ratings", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
                 {
@@ -132,8 +115,6 @@ namespace ECommerce.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MFGDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EXPDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -145,30 +126,6 @@ namespace ECommerce.API.Migrations
                         name: "FK_Vegetables_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CustomerRating",
-                columns: table => new
-                {
-                    CustomersId = table.Column<int>(type: "int", nullable: false),
-                    RatingsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CustomerRating", x => new { x.CustomersId, x.RatingsId });
-                    table.ForeignKey(
-                        name: "FK_CustomerRating_Customers_CustomersId",
-                        column: x => x.CustomersId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CustomerRating_Ratings_RatingsId",
-                        column: x => x.RatingsId,
-                        principalTable: "Ratings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -244,24 +201,28 @@ namespace ECommerce.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RatingVegetable",
+                name: "Ratings",
                 columns: table => new
                 {
-                    RatingsId = table.Column<int>(type: "int", nullable: false),
-                    VegetablesId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    VegetableId = table.Column<int>(type: "int", nullable: false),
+                    RatingNumber = table.Column<double>(type: "float", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RatingVegetable", x => new { x.RatingsId, x.VegetablesId });
+                    table.PrimaryKey("PK_Ratings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RatingVegetable_Ratings_RatingsId",
-                        column: x => x.RatingsId,
-                        principalTable: "Ratings",
+                        name: "FK_Ratings_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RatingVegetable_Vegetables_VegetablesId",
-                        column: x => x.VegetablesId,
+                        name: "FK_Ratings_Vegetables_VegetableId",
+                        column: x => x.VegetableId,
                         principalTable: "Vegetables",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -307,11 +268,6 @@ namespace ECommerce.API.Migrations
                 column: "VegetableId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomerRating_RatingsId",
-                table: "CustomerRating",
-                column: "RatingsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Customers_AccountId",
                 table: "Customers",
                 column: "AccountId",
@@ -350,9 +306,14 @@ namespace ECommerce.API.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RatingVegetable_VegetablesId",
-                table: "RatingVegetable",
-                column: "VegetablesId");
+                name: "IX_Ratings_CustomerId",
+                table: "Ratings",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ratings_VegetableId",
+                table: "Ratings",
+                column: "VegetableId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vegetables_CategoryId",
@@ -366,22 +327,16 @@ namespace ECommerce.API.Migrations
                 name: "CartItems");
 
             migrationBuilder.DropTable(
-                name: "CustomerRating");
-
-            migrationBuilder.DropTable(
                 name: "Images");
 
             migrationBuilder.DropTable(
                 name: "OrderItems");
 
             migrationBuilder.DropTable(
-                name: "RatingVegetable");
+                name: "Ratings");
 
             migrationBuilder.DropTable(
                 name: "Orders");
-
-            migrationBuilder.DropTable(
-                name: "Ratings");
 
             migrationBuilder.DropTable(
                 name: "Vegetables");

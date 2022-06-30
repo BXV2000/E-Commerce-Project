@@ -6,6 +6,9 @@ import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import { Image } from './components/Image';
 import { ImageCreate } from './components/ImageCreate';
+import { Vegetable } from './components/Vegetable';
+import { VegetableCreate } from './components/VegetableCreate';
+
 
 import './custom.css'
 
@@ -20,6 +23,8 @@ export default class App extends Component {
         <Route path='/fetch-data' component={FetchData} />
         <Route path='/image' component={Image} />
         <Route path='/image-create' component={ImageCreate} />
+        <Route path='/vegetable' component={Vegetable} />
+        <Route path='/vegetable-create' component={VegetableCreate} />
       </Layout>
     );
   }

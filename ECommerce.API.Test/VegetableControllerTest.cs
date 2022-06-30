@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ECommerce.API.Controllers;
+using ECommerce.API.DTOs;
 using ECommerce.API.Interfaces;
 using ECommerce.API.Models;
 using ECommerce.SharedDataModels;
@@ -41,12 +42,9 @@ namespace ECommerce.API.Test
                 Id = 0,
                 CategoryId = 1,
                 Name = "Something",
-                MFGDate = new DateTime(2012, 12, 25, 10, 30, 50),
-                EXPDate = new DateTime(2012, 12, 25, 10, 30, 50),
                 Price = 12000,
                 Stock = 0,
-                IsDeleted = false,
-                Images = new List<DTOs.ImageDTO>(),
+                IsDeleted = false
             };
             // Act
             var createdResponse =await _controller.Post(testVegetable);

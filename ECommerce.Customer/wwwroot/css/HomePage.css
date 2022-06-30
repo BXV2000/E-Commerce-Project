@@ -1,0 +1,105 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital@0;1&family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Meddon&family=Nunito+Sans:ital@0;1&family=Poppins&display=swap');
+
+
+/*HOMEPAGE HEADER*/
+.homepage-header-container {
+}
+
+.homepage-header-container:after {
+    content: "";
+    background: url("/Images/HomepageHeaderBG.webp");
+    opacity: 0.05;
+    top: 100px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+.homepage-header{
+    display:flex;
+}
+
+.homepage-header-text{
+    flex-basis:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+
+.homepage-header-text-wrapper {
+    padding-left:300px;
+}
+
+.homepage-header-text-wrapper h1 {
+    font-size: 80px;
+    font-family:'Nunito Sans';
+    font-weight:bold;
+}
+
+.homepage-header-text-wrapper p {
+    font-size: 17px;
+    font-family: 'Nunito Sans';
+    padding-bottom: 20px;
+}
+
+.homepage-header-button {
+    padding: 15px 30px;
+    background-color: #FA6C47;
+    font-family: 'Nunito Sans';
+    font-weight: bold;
+    color: white;
+    border-radius: 5%;
+    border: 1px transparent solid;
+    text-decoration:none;
+    transition: .2s;
+    cursor:pointer;
+}
+
+.homepage-header-button:hover {
+    border: 1px #FA6C47 solid;
+    padding: 15px 30px;
+    background-color: transparent;
+    font-family: 'Nunito Sans';
+    font-weight: bold;
+    color: #FA6C47;
+    border-radius: 5%;
+    transition: .2s;
+}
+
+.homepage-header-img img {
+    clip-path: circle(300px at center);
+}
+
+
+/*HOMEPAGE BEST SELLER*/
+
+.homepage-best-seller{
+    background-color:white;
+}
+
+.homepage-best-seller-text{
+    display:flex;
+    align-items:center;
+    flex-direction:column;
+    padding-top: 20px;
+}
+
+.homepage-best-seller-text h2 {
+    font-family: 'Meddon', cursive;
+    color: #FA6C47;
+}
+
+.homepage-best-seller-text h1 {
+    font-family: 'Nunito Sans', cursive;
+    font-weight:bold;
+    padding: 20px 0;
+}
+
+.homepage-best-seller-text p {
+    font-family: 'Nunito Sans', cursive;
+    font-size:17px;
+}
