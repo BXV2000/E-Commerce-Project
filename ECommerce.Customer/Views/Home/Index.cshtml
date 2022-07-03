@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<ECommerce.SharedDataModels.VegetableDTO>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -26,87 +28,22 @@
         </div>
         <div class="homepage-products">
             <div class="best-seller-row">
-                <div class="product">
-                    <img src="/Images//ProductDummy.jpg" />
-                    <p class="product-name">Product Name</p>
-                    <p>99.00</p>
-                    <p>4.5 <i class="fa-solid fa-star"></i></p>
-                    <div class="product-btns">
-                        <a class="button">SEE DETAIL</a>
-                        <a class="button">ADD TO CART</a>
-                    </div>
-                </div>
-                <div class="product">
-                    <img src="/Images//ProductDummy.jpg" />
-                    <p class="product-name">Product Name</p>
-                    <p>99.00</p>
-                    <p>4.5 <i class="fa-solid fa-star"></i></p>
-                    <div class="product-btns">
-                        <a class="button">SEE DETAIL</a>
-                        <a class="button">ADD TO CART</a>
-                    </div>
-                </div>
-                <div class="product">
-                    <img src="/Images//ProductDummy.jpg" />
-                    <p class="product-name">Product Name</p>
-                    <p>99.00</p>
-                    <p>4.5 <i class="fa-solid fa-star"></i></p>
-                    <div class="product-btns">
-                        <a class="button">SEE DETAIL</a>
-                        <a class="button">ADD TO CART</a>
-                    </div>
-                </div>
-                <div class="product">
-                    <img src="/Images//ProductDummy.jpg" />
-                    <p class="product-name">Product Name</p>
-                    <p>99.00</p>
-                    <p>4.5 <i class="fa-solid fa-star"></i></p>
-                    <div class="product-btns">
-                        <a class="button">SEE DETAIL</a>
-                        <a class="button">ADD TO CART</a>
-                    </div>
-                </div>
-                <div class="product">
-                    <img src="/Images//ProductDummy.jpg" />
-                    <p class="product-name">Product Name</p>
-                    <p>99.00</p>
-                    <p>4.5 <i class="fa-solid fa-star"></i></p>
-                    <div class="product-btns">
-                        <a class="button">SEE DETAIL</a>
-                        <a class="button">ADD TO CART</a>
-                    </div>
-                </div>
-
-                <div class="product">
-                    <img src="/Images//ProductDummy.jpg" />
-                    <p class="product-name">Product Name</p>
-                    <p>99.00</p>
-                    <p>4.5 <i class="fa-solid fa-star"></i></p>
-                    <div class="product-btns">
-                        <a class="button">SEE DETAIL</a>
-                        <a class="button">ADD TO CART</a>
-                    </div>
-                </div>
-                <div class="product">
-                    <img src="/Images//ProductDummy.jpg" />
-                    <p class="product-name">Product Name</p>
-                    <p>99.00</p>
-                    <p>4.5 <i class="fa-solid fa-star"></i></p>
-                    <div class="product-btns">
-                        <a class="button">SEE DETAIL</a>
-                        <a class="button">ADD TO CART</a>
-                    </div>
-                </div>
-                <div class="product">
-                    <img src="/Images//ProductDummy.jpg" />
-                    <p class="product-name">Product Name</p>
-                    <p>99.00</p>
-                    <p>4.5 <i class="fa-solid fa-star"></i></p>
-                    <div class="product-btns">
-                        <a class="button">SEE DETAIL</a>
-                        <a class="button">ADD TO CART</a>
-                    </div>
-                </div>
+                @if (Model != null)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <div class="product">
+                            <img src="/Images//ProductDummy.jpg" />
+                            <p class="product-name">@item.Name</p>
+                            <p>@item.Price</p>
+                            <p>4.5 <i class="fa-solid fa-star"></i></p>
+                            <div class="product-btns">
+                                <a class="button">SEE DETAIL</a>
+                                <a class="button">ADD TO CART</a>
+                            </div>
+                        </div>
+                    }
+                }
             </div>
             <div class="homepage-best-seller-btns"><a class="button">SEE MORE</a></div>
         </div>

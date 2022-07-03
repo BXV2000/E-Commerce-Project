@@ -3,6 +3,7 @@ using ECommerce.API.Controllers;
 using ECommerce.API.DTOs;
 using ECommerce.API.Interfaces;
 using ECommerce.API.Models;
+using ECommerce.API.Profiles;
 using ECommerce.SharedDataModels;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -17,13 +18,19 @@ namespace ECommerce.API.Test
     public class VegetableControllerTest
     {
         private readonly Mock<IVegetableRepository> _vegetableRepositoryMock;
-        private readonly IMapper _mapper;
+        
         private readonly VegetableController _controller;
 
         public VegetableControllerTest()
         {
+            var mockMapper = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new VegetableProfile()); //your automapperprofile 
+            });
+            var mapper = mockMapper.CreateMapper();
+
             _vegetableRepositoryMock = new Mock<IVegetableRepository>();
-            _controller = new VegetableController(_vegetableRepositoryMock.Object, _mapper);
+            _controller = new VegetableController(_vegetableRepositoryMock.Object, mapper);
         }
 
         [Fact]
@@ -41,16 +48,19 @@ namespace ECommerce.API.Test
             {
                 Id = 0,
                 CategoryId = 1,
-                Name = "Something",
-                Price = 12000,
+                Name = "string",
+                Price = 0,
                 Stock = 0,
                 IsDeleted = false
             };
+           
+
             // Act
-            var createdResponse =await _controller.Post(testVegetable);
+            var createdResponse = await _controller.Post(testVegetable);
             // Assert
-            Assert.IsType < VegetableDTO>(createdResponse);
+            Assert.IsType < OkObjectResult>(createdResponse as OkObjectResult);
 
         }
+        
     }
 }
