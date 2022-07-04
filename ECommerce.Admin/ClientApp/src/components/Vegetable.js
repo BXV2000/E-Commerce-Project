@@ -49,9 +49,9 @@ export class Vegetable extends Component {
     //        })
     //}
 
-    //deleteImage = (id) => {
-    //    axios.delete(baseURL + "Image/" + id)
-    //}
+    deleteVegetable = (id) => {
+        axios.delete(baseURL + "Vegetable/" + id)
+    }
 
     componentDidMount() {
        this.refreshList();
@@ -66,8 +66,8 @@ export class Vegetable extends Component {
         return (
             <div>
                 <h2>Vegetable List</h2>
-                <Link to="/vegetable-create" >Add new vegetable</Link>
-                <table>
+                <Link to="/vegetable-create" className="create-button"><i class="fa-solid fa-circle-plus"></i> Create</Link>
+                <table >
                     <thead>
                         <tr>
                             <th>Id</th>
@@ -83,10 +83,10 @@ export class Vegetable extends Component {
                                 <td>{vegetable.categoryId}</td>
                                 <td>{vegetable.price}</td>
                                 <td>
-                                    {/*<button value={vegetable.id} onClick={event => this.deleteImage(event.target.value)}>Delete</button>*/}
+                                    <button value={vegetable.id} onClick={event => this.deleteVegetable(event.target.value)}>Delete</button>
                                     {/*<button value={vegetable.id} onClick={event => this.getImageInfo(event.target.value)}>Edit</button>*/}
-                                    <button value={vegetable.id} >Delete</button>
-                                    <button value={vegetable.id} >Edit</button>
+                                    {/*<button value={vegetable.id} >Delete</button>*/}
+                                    {/*<button value={vegetable.id} >Edit</button>*/}
                                 </td>
                             </tr>
                         ))}

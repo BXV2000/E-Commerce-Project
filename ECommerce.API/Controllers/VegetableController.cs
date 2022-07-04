@@ -116,18 +116,21 @@ namespace ECommerce.API.Controllers
         //    }
         //}
 
-        //public class VegetableModel
-        //{
-        //    public int Id { get; set; }
-        //    public string Name { get; set; }
-        //    public int CategoryId { get; set; }
-        //    public DateTime MFGDate { get; set; }
-        //    public DateTime EXPDate { get; set; }
-        //    public decimal Price { get; set; }
-        //    public int Stock { get; set; }
-        //    public bool IsDeleted { get; set; }
-        //    public List<ImageModel> Images { get; set; } = new List<ImageModel>();
-        //}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var checkVegetable = await _vegetable.GetByIdAsync(id);
+                if (checkVegetable == null || checkVegetable.IsDeleted == true) return NotFound("Image not found");
+                await _vegetable.DeleteAsync(id);
+                return Ok("Image Deleted");
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
+        }
 
     }
 }

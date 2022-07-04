@@ -13,9 +13,11 @@ namespace ECommerce.API.Data.Repositories
             _context = context;
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var  vegetable = await _context.Vegetables.FirstOrDefaultAsync(vegie => vegie.Id == id);
+            vegetable.IsDeleted = true;
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Vegetable>> GetAsync()
