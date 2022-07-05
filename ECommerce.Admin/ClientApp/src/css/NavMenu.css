@@ -55,6 +55,11 @@ html {
 
 .navbar-link:hover {
     background-color: #DEF3EF;
+    color:black;
+}
+
+.navbar-link:hover i {
+    color: #42C3AA;
 }
 
 

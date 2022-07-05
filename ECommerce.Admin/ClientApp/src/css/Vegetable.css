@@ -1,0 +1,72 @@
+﻿.product-container{
+    padding-top: 50px;
+    display:flex;
+    flex-direction:column;
+}
+
+.product-container h2{
+    font-family: 'Nunito Sans';
+    font-weight:bold;
+}
+
+.product-container table{
+    margin-top:30px;
+    table-layout:fixed;
+    width:100%;
+    line-height: 60px;
+    text-align:center;
+}
+
+.button {
+    text-decoration: none;
+    font-family: 'Nunito Sans';
+    font-weight: bold;
+    border: 2px solid #42C3AA;
+    width: 200px;
+    height: 50px;
+    background-color: #42C3AA;
+    color:white;
+    border-radius:10px;
+    max-width:150px;
+    justify-content:center;
+    align-items:center;
+    display:flex;
+    transition:.2s;
+    /*margin-bottom: 30px;*/
+    margin-left: 10px;
+}
+
+.button *{
+    padding: 0px 10px 0px 0px;
+}
+
+.button:hover {
+    background-color: transparent;
+    color: #42C3AA;
+    transition: .2s
+}
+
+.table-header {
+    background-color: #F3F9F9; 
+}
+
+.table-body tr td{
+    margin: 10px 0;
+}
+
+.button-container{
+    display:flex;
+}
+
+.delete-button {
+    background-color: #FC5353;
+    border-color: #FC5353;
+}
+
+.delete-button:hover {
+    color: #FC5353;
+}
+
+
+
+
