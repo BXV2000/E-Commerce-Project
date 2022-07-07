@@ -1,0 +1,45 @@
+﻿@model ECommerce.SharedDataModels.Authenticate.AuthenticateRequestDTO
+@{
+    ViewData["Title"] = "Login";
+}
+<h1>@ViewData["Title"]</h1>
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create Account</a>
+</p>
+<form asp-action="Login"> 
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.LastName)*@Username
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.FirstMidName)*@ Password
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@*@foreach (var item in Model) {*@
+        <tr>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.LastName)*@<input asp-for="Username" type="text" class="form-control" name="Username" />
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.FirstMidName)*@<input asp-for="Password" type="password" class="form-control" name="Password" />
+            </td>
+            <td>
+@*                <a asp-action="Edit" asp-route-id="">Edit</a> |
+                <a asp-action="Details" asp-route-id="">Details</a> |
+                <a asp-action="Delete" asp-route-id="">Delete</a>*@
+                 <button type="submit" class="btn btn-success btn-block mb-4">Login</button>
+                 @*<button type="submit" class="btn btn-success btn-block mb-4">Register</button>*@
+            </td>
+        </tr>
+@*}*@
+    </tbody>
+</table>
+</form>
