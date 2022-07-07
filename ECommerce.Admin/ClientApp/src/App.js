@@ -8,6 +8,8 @@ import { Image } from './components/Image';
 import { ImageCreate } from './components/ImageCreate';
 import { Vegetable } from './components/Vegetable';
 import { VegetableCreate } from './components/VegetableCreate';
+import { Login } from './components/Login';
+import { Error} from './components/Error';
 
 
 import './custom.css'
@@ -25,6 +27,8 @@ export default class App extends Component {
         <Route path='/image-create' component={ImageCreate} />
         <Route path='/vegetable' component={Vegetable} />
         <Route path='/vegetable-create' component={VegetableCreate} />
+        <Route path="/error" component={Error} />
+        <Route path="/login" component={Login} />
       </Layout>
     );
   }

@@ -1,9 +1,10 @@
-﻿using ECommerce.API.DTOs;
+﻿
 using ECommerce.API.Services;
 using ECommerce.Customer.Models;
 using ECommerce.Customer.Services;
 using ECommerce.SharedDataModels;
 using ECommerce.SharedDataModels.Authenticate;
+using ECommerce.SharedDataModels.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Refit;
@@ -43,6 +44,10 @@ namespace ECommerce.Customer.Controllers
                 return RedirectToAction("Error");
             }
         }
+
+        [ECommerce.API.Authorization.Authorize(UserRole.Administrator)]
+        [Route("index")]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             try
@@ -52,7 +57,7 @@ namespace ECommerce.Customer.Controllers
             }
             catch
             {
-                return RedirectToAction("Error");
+                return RedirectToAction("Privacy");
             }
         }
 

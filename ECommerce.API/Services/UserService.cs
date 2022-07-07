@@ -90,24 +90,7 @@ namespace ECommerce.API.Services
             return userDto;
         }
 
-        //public AuthenticateResponseDTO Authenticate(AuthenticateRequestDTO model)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
-        //public UserDTO Register(RegisterRequestDTO model)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
-        IEnumerable<UserDTO> IUserService.GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        UserDTO IUserService.GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
