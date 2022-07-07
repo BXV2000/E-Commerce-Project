@@ -7,7 +7,7 @@
         public string City { get; set; }
         public bool IsDeleted { get; set; }
 
-        public virtual Customer Customer { get; set; }
+        public virtual User Customer { get; set; }
         //public virtual List<Order> Orders { get; set; } = new List<Order>();
     }
 }

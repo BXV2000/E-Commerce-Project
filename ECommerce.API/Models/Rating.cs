@@ -9,6 +9,6 @@
         public bool IsDeleted { get; set; }
 
         public virtual Vegetable Vegetables { get; set; }
-        public virtual Customer Customers { get; set; }
+        public virtual User Customers { get; set; }
     }
 }
