@@ -15,7 +15,7 @@ namespace ECommerce.API.Data
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<User> Customers { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Rating> Ratings { get; set; }
