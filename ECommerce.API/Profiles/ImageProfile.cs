@@ -11,9 +11,8 @@ namespace ECommerce.API.Profiles
             //Soure -> Destination
             CreateMap<Image, ImageDTO>();
             CreateMap<ImageDTO, Image>()
-                .ForMember(dest => dest.Id, o=>o.Ignore())
+                .ForMember(dest => dest.Id, o => o.Ignore())
                 .ForMember(dest => dest.IsDeleted, o => o.Ignore());
-
         }
     }
 }

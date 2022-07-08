@@ -33,7 +33,13 @@
                     @foreach (var item in Model)
                     {
                         <div class="product">
-                            <img src="/Images//ProductDummy.jpg" />
+                            @if (!item.Images.Any())
+                            {
+                                <img src="/Images//ProductDummy.jpg" />
+                            }
+                            else{
+                             <img src="@item.Images[0].ImageURL/@item.Images[0].Id" />
+                            }
                             <p class="product-name">@item.Name</p>
                             <p>@item.Price</p>
                             <p>4.5 <i class="fa-solid fa-star"></i></p>

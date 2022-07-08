@@ -23,4 +23,8 @@
     <ProjectReference Include="..\ECommerce.SharedDataModels\ECommerce.SharedDataModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

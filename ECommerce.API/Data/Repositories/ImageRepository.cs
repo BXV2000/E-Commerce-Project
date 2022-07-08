@@ -7,9 +7,11 @@ namespace ECommerce.API.Data.Repositories
     public class ImageRepository : IImageRepository
     {
         private readonly ECommerceDbContext _context;
+        
         public ImageRepository( ECommerceDbContext context)
         {
             _context = context;
+
         }
         public async Task DeleteAsync(int id)
         {

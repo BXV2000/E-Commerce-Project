@@ -12,10 +12,13 @@ namespace ECommerce.API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IImageRepository _image;
-        public ImageController(IImageRepository image, IMapper mapper )
+        public static IWebHostEnvironment _webHostEnvironemnet;
+
+        public ImageController(IImageRepository image, IMapper mapper, IWebHostEnvironment webHostEnvironemnet)
         {
             _mapper = mapper;
             _image = image;
+            _webHostEnvironemnet = webHostEnvironemnet;
         }
 
         //Get all Image
@@ -46,6 +49,12 @@ namespace ECommerce.API.Controllers
                 var getImage = await _image.GetByIdAsync(id);
                 if (getImage == null || getImage.IsDeleted == true) return NotFound("Image not found :(");
                 var imageDTOs = _mapper.Map<ImageDTO>(getImage);
+                var imgLink = _webHostEnvironemnet.WebRootPath + "\\uploads\\" + imageDTOs.ImageName;
+                if (System.IO.File.Exists(imgLink))
+                {
+                    byte[] b = System.IO.File.ReadAllBytes(imgLink);
+                    return File(b, "image/png");
+                }
                 return Ok(imageDTOs);
             }
             catch
@@ -56,17 +65,40 @@ namespace ECommerce.API.Controllers
 
         //Create Image
         [HttpPost]
-        public async Task<IActionResult> Post(ImageDTO info)
+        public async Task<IActionResult> Post([FromForm]ImageDTO info)
         {
+            var baseURL = "https://localhost:7024/api/Image";
             try
             {
+
                 //var checkVegetable = _context.Vegetables.Find(info.VegetableId);
                 //if (createImage.VegetableId == 0) return BadRequest("Please input vegetable ID");
                 //if (checkVegetable == null || checkVegetable.IsDeleted == true) return NotFound("Vegetable not found");
-                var createImage = _mapper.Map<Image>(info);
-                var image = await _image.PostAsync(createImage);
-                var returnImage = _mapper.Map<ImageDTO>(image);
-                return Ok(returnImage);
+                if(info.File.Length > 0)
+                {
+                    string path = _webHostEnvironemnet.WebRootPath + "\\uploads\\";
+                    string fileURL = _webHostEnvironemnet.WebRootPath + "\\uploads\\"+info.File.FileName;
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    using(FileStream fileStream = System.IO.File.Create(path + info.File.FileName))
+                    {
+                        info.File.CopyTo(fileStream);
+                        fileStream.Flush();
+                        info.ImageName = info.File.FileName;
+                        info.ImageURL = baseURL;
+                        var createImage = _mapper.Map<Image>(info);
+                        var image = await _image.PostAsync(createImage);
+                        var returnImage = _mapper.Map<ImageDTO>(image);
+                        return Ok("Upload Done");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Fail");
+                }
+             
             }
             catch
             {
