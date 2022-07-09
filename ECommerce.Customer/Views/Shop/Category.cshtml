@@ -7,13 +7,13 @@
 
 <div>
     <div class="banner">
-        <h1> <i class="fa-solid fa-seedling navbar-extra-icon"></i> SHOP</h1>
+        <h1> <i class="fa-solid fa-seedling navbar-extra-icon"></i> @Model.Category.Name</h1>
     </div>
     <div class="shop-section">
         <div class="product-side">
            @if (Model != null)
                 {
-                    @foreach (var item in Model.Vegetables)
+                    @foreach (var item in Model.Category.Vegetables)
                     {
                         <div class="product">
                             @if (!item.Images.Any())

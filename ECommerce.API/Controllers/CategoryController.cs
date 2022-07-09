@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using ECommerce.API.Models;
 using ECommerce.API.Data;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using ECommerce.API.Interfaces;
+using ECommerce.SharedDataModels;
 
 namespace ECommerce.API.Controllers
 {
@@ -10,49 +13,44 @@ namespace ECommerce.API.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly ECommerceDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly ICategoryRepository _category;
 
-        public CategoryController(ECommerceDbContext context)
+        public CategoryController(ICategoryRepository category, IMapper mapper)
         {
-            _context = context;
+            _category = category;
+            _mapper = mapper;
         }
 
         // Get all Category
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var getCategory = _context.Categories.Select(category => new CategoryModel
-                {
-                    Id = category.Id,
-                    Name = category.Name,
-                    Description = category.Description,
-                }).ToList();
-                if (!getCategory.Any()) return NotFound("Category Empty");
-                return Ok(getCategory.Where(category=> category.IsDeleted==false));
+                var getCates = await _category.GetAsync();
+                if (!getCates.Any()) return NotFound("Category Empty");
+                var cateDTOs = _mapper.Map<List<CategoryDTO>>(getCates);
+                return Ok(cateDTOs.Where(image => image.IsDeleted == false));
             }
             catch
             {
                 return BadRequest("Something went wrong");
             }
 
+
         }
 
         //Get one Category
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
             try
             {
-                var getCategory = _context.Categories.Find(id);
-                if (getCategory == null || getCategory.IsDeleted == true) return NotFound("Category not found :(");
-                return Ok(new CategoryModel
-                {
-                    Id = getCategory.Id,
-                    Name = getCategory.Name,
-                    Description = getCategory.Description,
-                });
+                var getCate = await _category.GetByIdAsync(id);
+                if (getCate == null || getCate.IsDeleted == true) return NotFound("Category not found :(");
+                var cateDTO = _mapper.Map<CategoryDTO>(getCate);
+                return Ok(cateDTO);
             }
             catch
             {
@@ -62,87 +60,73 @@ namespace ECommerce.API.Controllers
 
         //Post Category
         [HttpPost]
-        public IActionResult Post(CategoryModel info)
+        public async Task<IActionResult> Post(CategoryDTO info)
         {
             try
             {
-                var category = new Category
-                {
-                    Name = info.Name,
-                    Description = info.Description,
-                };
-                _context.Categories.Add(category);
-                _context.SaveChanges();
-                return Ok(new CategoryModel
-                {
-                    Id = category.Id,
-                    Name = category.Name,
-                    Description = category.Description,
-                });
+                var createCate = _mapper.Map<Category>(info);
+                var cate = await _category.PostAsync(createCate);
+                var returnCate = _mapper.Map<CategoryDTO>(cate);
+                return Ok(returnCate);
             }
             catch
             {
                 return BadRequest("Something went wrong");
             }
+
         }
 
-        //Put Category
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, CategoryModel info)
-        {
-            try
-            {
-                Category updateCategory;
-                using (var context = new ECommerceDbContext())
-                {
-                    var category = context.Categories.Find(id);
-                    if (category == null || category.IsDeleted == true) return NotFound("Category not found :(");
-                    category.Name = info.Name;
-                    category.Description = info.Description;
-                    context.Entry(category).State = EntityState.Modified;
-                    context.SaveChanges();
-                    return Ok(new CategoryModel
-                    {
-                        Id = category.Id,
-                        Name = category.Name,
-                        Description = category.Description,
-                    });
-                }
-            }
-            catch
-            {
-                return BadRequest("Something went wrong");
-            }
-        }
+        //        //Put Category
+        //        [HttpPut("{id}")]
+        //        public IActionResult Put(int id, CategoryModel info)
+        //        {
+        //            try
+        //            {
+        //                Category updateCategory;
+        //                using (var context = new ECommerceDbContext())
+        //                {
+        //                    var category = context.Categories.Find(id);
+        //                    if (category == null || category.IsDeleted == true) return NotFound("Category not found :(");
+        //                    category.Name = info.Name;
+        //                    category.Description = info.Description;
+        //                    context.Entry(category).State = EntityState.Modified;
+        //                    context.SaveChanges();
+        //                    return Ok(new CategoryModel
+        //                    {
+        //                        Id = category.Id,
+        //                        Name = category.Name,
+        //                        Description = category.Description,
+        //                    });
+        //                }
+        //            }
+        //            catch
+        //            {
+        //                return BadRequest("Something went wrong");
+        //            }
+        //        }
 
-        //Delete Category
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            try
-            {
-                using (var context = new ECommerceDbContext())
-                {
-                    var category = context.Categories.Find(id);
-                    if (category == null || category.IsDeleted == true) return NotFound("Category not found :(");
-                    category.IsDeleted = true;
-                    context.Entry(category).State = EntityState.Modified;
-                    context.SaveChanges();
-                    return Ok($"Category with id = {id} was deleted ");
-                }
-            }
-            catch
-            {
-                return BadRequest("Something went wrong");
-            }
-        }
+        //        //Delete Category
+        //        [HttpDelete("{id}")]
+        //        public IActionResult Delete(int id)
+        //        {
+        //            try
+        //            {
+        //                using (var context = new ECommerceDbContext())
+        //                {
+        //                    var category = context.Categories.Find(id);
+        //                    if (category == null || category.IsDeleted == true) return NotFound("Category not found :(");
+        //                    category.IsDeleted = true;
+        //                    context.Entry(category).State = EntityState.Modified;
+        //                    context.SaveChanges();
+        //                    return Ok($"Category with id = {id} was deleted ");
+        //                }
+        //            }
+        //            catch
+        //            {
+        //                return BadRequest("Something went wrong");
+        //            }
+        //        }
 
-        public class CategoryModel
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public bool IsDeleted { get; set; }
-        }
+
     }
 }

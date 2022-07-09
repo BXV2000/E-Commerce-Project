@@ -15,6 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<ECommerceDbContext>(options => options.UseSqlServer("Data Source=DESKTOP-FNO20ES\\SQLEXPRESS;Initial Catalog=ECommerceDb;Integrated Security=True"));
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IVegetableRepository, VegetableRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 // Add AutoMapper
 {
