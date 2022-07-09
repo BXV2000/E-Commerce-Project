@@ -10,118 +10,28 @@
     </div>
     <div class="shop-section">
         <div class="product-side">
-            
-            <div class="product">            
-                <img src="/Images//ProductDummy.jpg" />
-                <p class="product-name">Name</p>
-                <p>Price</p>
-                <p>4.5 <i class="fa-solid fa-star"></i></p>
-                <div class="product-btns">
-                    <a class="button">SEE DETAIL</a>
-                    <a class="button">ADD TO CART</a>
-                </div>
-            </div>
-            <div class="product">            
-                <img src="/Images//ProductDummy.jpg" />
-                <p class="product-name">Name</p>
-                <p>Price</p>
-                <p>4.5 <i class="fa-solid fa-star"></i></p>
-                <div class="product-btns">
-                    <a class="button">SEE DETAIL</a>
-                    <a class="button">ADD TO CART</a>
-                </div>
-            </div>
-            <div class="product">            
-                <img src="/Images//ProductDummy.jpg" />
-                <p class="product-name">Name</p>
-                <p>Price</p>
-                <p>4.5 <i class="fa-solid fa-star"></i></p>
-                <div class="product-btns">
-                    <a class="button">SEE DETAIL</a>
-                    <a class="button">ADD TO CART</a>
-                </div>
-            </div>
-            <div class="product">            
-                <img src="/Images//ProductDummy.jpg" />
-                <p class="product-name">Name</p>
-                <p>Price</p>
-                <p>4.5 <i class="fa-solid fa-star"></i></p>
-                <div class="product-btns">
-                    <a class="button">SEE DETAIL</a>
-                    <a class="button">ADD TO CART</a>
-                </div>
-            </div>
-            <div class="product">            
-                <img src="/Images//ProductDummy.jpg" />
-                <p class="product-name">Name</p>
-                <p>Price</p>
-                <p>4.5 <i class="fa-solid fa-star"></i></p>
-                <div class="product-btns">
-                    <a class="button">SEE DETAIL</a>
-                    <a class="button">ADD TO CART</a>
-                </div>
-            </div>
-            <div class="product">            
-                <img src="/Images//ProductDummy.jpg" />
-                <p class="product-name">Name</p>
-                <p>Price</p>
-                <p>4.5 <i class="fa-solid fa-star"></i></p>
-                <div class="product-btns">
-                    <a class="button">SEE DETAIL</a>
-                    <a class="button">ADD TO CART</a>
-                </div>
-            </div>
-            <div class="product">            
-                <img src="/Images//ProductDummy.jpg" />
-                <p class="product-name">Name</p>
-                <p>Price</p>
-                <p>4.5 <i class="fa-solid fa-star"></i></p>
-                <div class="product-btns">
-                    <a class="button">SEE DETAIL</a>
-                    <a class="button">ADD TO CART</a>
-                </div>
-            </div>
-            <div class="product">            
-                <img src="/Images//ProductDummy.jpg" />
-                <p class="product-name">Name</p>
-                <p>Price</p>
-                <p>4.5 <i class="fa-solid fa-star"></i></p>
-                <div class="product-btns">
-                    <a class="button">SEE DETAIL</a>
-                    <a class="button">ADD TO CART</a>
-                </div>
-            </div>
-            <div class="product">            
-                <img src="/Images//ProductDummy.jpg" />
-                <p class="product-name">Name</p>
-                <p>Price</p>
-                <p>4.5 <i class="fa-solid fa-star"></i></p>
-                <div class="product-btns">
-                    <a class="button">SEE DETAIL</a>
-                    <a class="button">ADD TO CART</a>
-                </div>
-            </div>
-            <div class="product">            
-                <img src="/Images//ProductDummy.jpg" />
-                <p class="product-name">Name</p>
-                <p>Price</p>
-                <p>4.5 <i class="fa-solid fa-star"></i></p>
-                <div class="product-btns">
-                    <a class="button">SEE DETAIL</a>
-                    <a class="button">ADD TO CART</a>
-                </div>
-            </div>  
-            <div class="product">            
-                <img src="/Images//ProductDummy.jpg" />
-                <p class="product-name">Name</p>
-                <p>Price</p>
-                <p>4.5 <i class="fa-solid fa-star"></i></p>
-                <div class="product-btns">
-                    <a class="button">SEE DETAIL</a>
-                    <a class="button">ADD TO CART</a>
-                </div>
-
-            </div> 
+           @if (Model != null)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <div class="product">
+                            @if (!item.Images.Any())
+                            {
+                                <img src="/Images//ProductDummy.jpg" />
+                            }
+                            else{
+                             <img src="@item.Images[0].ImageURL/@item.Images[0].Id" />
+                            }
+                            <p class="product-name">@item.Name</p>
+                            <p>@item.Price</p>
+                            <p>4.5 <i class="fa-solid fa-star"></i></p>
+                            <div class="product-btns">
+                                <a class="button" asp-controller="Shop" asp-action="Detail" asp-route-id="@item.Id">SEE DETAIL</a>
+                                <a class="button">ADD TO CART</a>
+                            </div>
+                        </div>
+                    }
+                }
                 <button class="button" id="load-more-button" onclick="load()">Show more</button>
        
         </div>

@@ -1,0 +1,32 @@
+﻿@model ECommerce.SharedDataModels.VegetableDTO
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<div>
+    <div class="banner">
+        <h1> <i class="fa-solid fa-seedling navbar-extra-icon"></i>@Model.Name</h1>
+    </div>
+    <div class="product-detail-section">
+        <div class="product-img">
+            @if (!Model.Images.Any())
+            {
+                <img src="/Images//ProductDummy.jpg" />
+            }
+            else{
+                <img src="@Model.Images[0].ImageURL/@Model.Images[0].Id" />
+            }
+        </div>
+        <div class="product-detail-text">
+            <h1 class="product-detail-name">@Model.Name</h1>
+            <p class="product-detail-price">@Model.Price</p>
+            <p>4.5 <i class="fa-solid fa-star"></i></p>
+            <p class="product-detail-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Aliquam ut est pulvinar quam fringilla pretium. Praesent nibh orci, tincidunt a lacinia non, 
+                vulputate id metus. Vivamus rutrum erat metus, et gravida tortor aliquam consectetur. Interdum et
+                malesuada fames ac ante ipsum primis in faucibus.</p>
+            <a class="button">ADD TO CART</a>
+        </div>
+    </div> 
+</div>
