@@ -63,7 +63,7 @@ namespace ECommerce.Customer.Controllers
             }
         }
 
-        [ECommerce.API.Authorization.Authorize(UserRole.Administrator)]
+        [ECommerce.API.Authorization.Authorize(UserRole.Customer)]
         [Route("index")]
         [HttpGet]
 
@@ -71,6 +71,12 @@ namespace ECommerce.Customer.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
         }
 
 
