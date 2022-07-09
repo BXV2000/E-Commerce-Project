@@ -1,0 +1,98 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital@0;1&family=Poppins&display=swap');
+/*BANNER*/
+.banner {
+    height: 400px;
+    display: flex;
+    background: url("/Images/Banner.png") no-repeat repeat right;
+    background-color: #F7F6F1;  
+    width:100%;
+    align-items:center;
+
+}
+.banner h1 {
+    font-family: 'Nunito Sans';
+    font-size: 50px;
+    font-weight: bold;
+    margin-left: 25%;
+}
+
+.banner h1 i {
+    color: #98AA49;
+}
+
+/*SHOP SECTION*/
+.shop-section{
+    display:flex;
+    width:100%;
+    margin-top:100px;
+}
+
+.product-side{
+    display:flex;
+    flex-basis:100%;
+    padding-left:15%;
+    flex-wrap:wrap;
+}
+
+.product-side .product{
+    display:none;
+}
+
+    .product-side .product:nth-child(1),
+    .product-side .product:nth-child(2),
+    .product-side .product:nth-child(3),
+    .product-side .product:nth-child(4),
+    .product-side .product:nth-child(5),
+    .product-side .product:nth-child(6),
+    .product-side .product:nth-child(7),
+    .product-side .product:nth-child(8),
+    .product-side .product:nth-child(9) {
+        display: flex;
+    }
+    .sort-side {
+        display: flex;
+        flex-basis: 50%;
+        flex-direction: column;
+        margin-top: 50px;
+    }
+
+.sort-side h3{
+    font-family:'Nunito Sans';
+    font-weight:bold;
+}
+
+.sort-side h3:before {
+    content: "";
+    width: 5px;
+    height: 30px;
+    background-color: #FA6C47;
+    position: absolute;
+}
+
+.sort-side a{
+    text-decoration:none;
+    color:black;
+    font-family:'Nunito Sans';
+    font-size: 16px;
+    font-weight:bold;
+
+}
+
+.sort-side li {
+    color: gray;
+    margin: 10px 0px;
+}
+
+.sort-side li:hover {
+    color: #FA6C47;
+}
+
+.sort-side li:hover a{
+    color: #FA6C47;
+}
+
+#load-more-button{
+    position:absolute;
+    bottom:375px;
+    left: 700px;
+}

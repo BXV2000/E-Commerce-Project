@@ -120,6 +120,10 @@
     max-width:1400px;
     flex-wrap:wrap;
 }
+.best-seller-row .product:nth-child(n+9){
+    display:none;
+}
+
 
 .product {
     display: flex;
@@ -132,7 +136,7 @@
     align-items: center;
     justify-content: center;
     transition: .3s;
-    margin :25px;
+    margin: 25px;
 }
 
 .product img{

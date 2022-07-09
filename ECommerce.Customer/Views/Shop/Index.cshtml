@@ -1,0 +1,164 @@
+﻿@model IEnumerable<ECommerce.SharedDataModels.VegetableDTO>
+
+@{
+    ViewData["Title"] = "ShopPage";
+}
+
+<div>
+    <div class="banner">
+        <h1> <i class="fa-solid fa-seedling navbar-extra-icon"></i> SHOP</h1>
+    </div>
+    <div class="shop-section">
+        <div class="product-side">
+            
+            <div class="product">            
+                <img src="/Images//ProductDummy.jpg" />
+                <p class="product-name">Name</p>
+                <p>Price</p>
+                <p>4.5 <i class="fa-solid fa-star"></i></p>
+                <div class="product-btns">
+                    <a class="button">SEE DETAIL</a>
+                    <a class="button">ADD TO CART</a>
+                </div>
+            </div>
+            <div class="product">            
+                <img src="/Images//ProductDummy.jpg" />
+                <p class="product-name">Name</p>
+                <p>Price</p>
+                <p>4.5 <i class="fa-solid fa-star"></i></p>
+                <div class="product-btns">
+                    <a class="button">SEE DETAIL</a>
+                    <a class="button">ADD TO CART</a>
+                </div>
+            </div>
+            <div class="product">            
+                <img src="/Images//ProductDummy.jpg" />
+                <p class="product-name">Name</p>
+                <p>Price</p>
+                <p>4.5 <i class="fa-solid fa-star"></i></p>
+                <div class="product-btns">
+                    <a class="button">SEE DETAIL</a>
+                    <a class="button">ADD TO CART</a>
+                </div>
+            </div>
+            <div class="product">            
+                <img src="/Images//ProductDummy.jpg" />
+                <p class="product-name">Name</p>
+                <p>Price</p>
+                <p>4.5 <i class="fa-solid fa-star"></i></p>
+                <div class="product-btns">
+                    <a class="button">SEE DETAIL</a>
+                    <a class="button">ADD TO CART</a>
+                </div>
+            </div>
+            <div class="product">            
+                <img src="/Images//ProductDummy.jpg" />
+                <p class="product-name">Name</p>
+                <p>Price</p>
+                <p>4.5 <i class="fa-solid fa-star"></i></p>
+                <div class="product-btns">
+                    <a class="button">SEE DETAIL</a>
+                    <a class="button">ADD TO CART</a>
+                </div>
+            </div>
+            <div class="product">            
+                <img src="/Images//ProductDummy.jpg" />
+                <p class="product-name">Name</p>
+                <p>Price</p>
+                <p>4.5 <i class="fa-solid fa-star"></i></p>
+                <div class="product-btns">
+                    <a class="button">SEE DETAIL</a>
+                    <a class="button">ADD TO CART</a>
+                </div>
+            </div>
+            <div class="product">            
+                <img src="/Images//ProductDummy.jpg" />
+                <p class="product-name">Name</p>
+                <p>Price</p>
+                <p>4.5 <i class="fa-solid fa-star"></i></p>
+                <div class="product-btns">
+                    <a class="button">SEE DETAIL</a>
+                    <a class="button">ADD TO CART</a>
+                </div>
+            </div>
+            <div class="product">            
+                <img src="/Images//ProductDummy.jpg" />
+                <p class="product-name">Name</p>
+                <p>Price</p>
+                <p>4.5 <i class="fa-solid fa-star"></i></p>
+                <div class="product-btns">
+                    <a class="button">SEE DETAIL</a>
+                    <a class="button">ADD TO CART</a>
+                </div>
+            </div>
+            <div class="product">            
+                <img src="/Images//ProductDummy.jpg" />
+                <p class="product-name">Name</p>
+                <p>Price</p>
+                <p>4.5 <i class="fa-solid fa-star"></i></p>
+                <div class="product-btns">
+                    <a class="button">SEE DETAIL</a>
+                    <a class="button">ADD TO CART</a>
+                </div>
+            </div>
+            <div class="product">            
+                <img src="/Images//ProductDummy.jpg" />
+                <p class="product-name">Name</p>
+                <p>Price</p>
+                <p>4.5 <i class="fa-solid fa-star"></i></p>
+                <div class="product-btns">
+                    <a class="button">SEE DETAIL</a>
+                    <a class="button">ADD TO CART</a>
+                </div>
+            </div>  
+            <div class="product">            
+                <img src="/Images//ProductDummy.jpg" />
+                <p class="product-name">Name</p>
+                <p>Price</p>
+                <p>4.5 <i class="fa-solid fa-star"></i></p>
+                <div class="product-btns">
+                    <a class="button">SEE DETAIL</a>
+                    <a class="button">ADD TO CART</a>
+                </div>
+
+            </div> 
+                <button class="button" id="load-more-button" onclick="load()">Show more</button>
+       
+        </div>
+        <div class="sort-side">
+            <h3> &nbsp Categories</h3>
+            <li><a class="" asp-area="" asp-controller="" asp-action="">Cate 1</a> </li>
+            <li><a class="" asp-area="" asp-controller="" asp-action="">Cate 2</a> </li>
+        </div>
+    </div>
+</div>
+<script>
+let loadButton = document.getElementById("load-more-button");
+let product = document.getElementsByClassName("product")
+let currentItem = 9;
+if (currentItem >= product.length) {
+    loadButton.style.display = 'none';
+}
+load =()=>{
+    if (product.length - currentItem >= 3) {
+        for (let i = currentItem; i < currentItem + 3; i++) {
+            product[i].style.display = 'flex';
+        }
+        currentItem += 3;
+        if (currentItem >= product.length) {
+            loadButton.style.display = 'none';
+        }
+    }
+    if (product.length - currentItem < 3){
+        for (let i = currentItem; i < product.length; i++) {
+            product[i].style.display = 'flex';
+        }
+        currentItem += 3;
+        if (currentItem >= product.length) {
+            loadButton.style.display = 'none';
+        }
+    }
+    
+}
+
+</script>

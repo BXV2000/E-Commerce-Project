@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="~/css/HomePage.css"/>
     <link rel="stylesheet" href="~/css/Navbar.css"/>
     <link rel="stylesheet" href="~/css/Footer.css"/>
+    <link rel="stylesheet" href="~/css/Shop.css"/>
 </head>
 <body>
     <header>
@@ -22,7 +23,7 @@
             </div>
             <div class="navbar-links-container">                
                 <a class="navbar-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a> 
-                <a class="navbar-link" asp-area="" asp-controller="Home" asp-action="Index">Shop</a> 
+                <a class="navbar-link" asp-area="" asp-controller="Shop" asp-action="Index">Shop</a> 
                 <a class="navbar-link" asp-area="" asp-controller="Home" asp-action="Index">About Us</a> 
                 <a class="navbar-link" asp-area="" asp-controller="Home" asp-action="Login">Login</a>                    
                 <a class="navbar-link" asp-area="" asp-controller="Image" asp-action="Index">Image</a>
@@ -49,7 +50,7 @@
             <a class="navbar-link" asp-area="" asp-controller="Home" asp-action="Index"><img class="footer-logo-img" src="/Images/NavbarLogo.png" alt="navber-logo-img"/></a> 
             <div class="footer-links">
                 <a class="navbar-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a> 
-                <a class="navbar-link" asp-area="" asp-controller="Home" asp-action="Index">Shop</a> 
+                <a class="navbar-link" asp-area="" asp-controller="Shop" asp-action="Index">Shop</a> 
                 <a class="navbar-link" asp-area="" asp-controller="Home" asp-action="Index">About Us</a> 
                 <a class="navbar-link" asp-area="" asp-controller="Home" asp-action="Privacy">Contacts</a>                    
                 <a class="navbar-link" asp-area="" asp-controller="Image" asp-action="Index">Image</a>
@@ -58,6 +59,7 @@
             <p>Copyright © 2022 by VINZ. All Rights Reserved.</p>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

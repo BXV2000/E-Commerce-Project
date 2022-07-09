@@ -45,9 +45,11 @@ namespace ECommerce.Customer.Controllers
             }
         }
 
-        [ECommerce.API.Authorization.Authorize(UserRole.Administrator)]
-        [Route("index")]
-        [HttpGet]
+        public IActionResult Image()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> Index()
         {
             try
@@ -57,18 +59,20 @@ namespace ECommerce.Customer.Controllers
             }
             catch
             {
-                return RedirectToAction("Privacy");
+                return RedirectToAction("Error");
             }
         }
+
+        [ECommerce.API.Authorization.Authorize(UserRole.Administrator)]
+        [Route("index")]
+        [HttpGet]
+
 
         public IActionResult Privacy()
         {
             return View();
         }
-        public IActionResult Image()
-        {
-            return View();
-        }
+
 
         //public IActionResult Vegetable()    
         //{
