@@ -1,0 +1,11 @@
+﻿.product-list {
+    flex: 4;
+    height: 900px;
+    width: 100%;
+}
+
+.button-list{
+    display:flex;
+}
+
+/*PRODUCT*/

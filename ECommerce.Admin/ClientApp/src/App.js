@@ -1,35 +1,25 @@
-import React, { Component } from 'react';
-import { Route } from 'react-router';
-import { Layout } from './components/Layout';
-import { Home } from './components/Home';
-import { FetchData } from './components/FetchData';
-import { Counter } from './components/Counter';
-import { Image } from './components/Image';
-import { ImageCreate } from './components/ImageCreate';
-import { Vegetable } from './components/Vegetable';
-import { VegetableCreate } from './components/VegetableCreate';
-import { Login } from './components/Login';
-import { Error} from './components/Error';
 
+//import './custom.css'
 
-import './custom.css'
+import React, { Component } from "react";
 
-export default class App extends Component {
-  static displayName = App.name;
+// Routes
+import Routes from "./components/Routes";
 
-  render () {
+import { setAuthToken } from "./helpers/setAuthToken";
+
+function App() {
+    // Check JWT token
+    const token = localStorage.getItem("token");
+    if (token) {
+        setAuthToken(token);
+    }
+
     return (
-      <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetch-data' component={FetchData} />
-        <Route path='/image' component={Image} />
-        <Route path='/image-create' component={ImageCreate} />
-        <Route path='/vegetable' component={Vegetable} />
-        <Route path='/vegetable-create' component={VegetableCreate} />
-        <Route path="/error" component={Error} />
-        <Route path="/login" component={Login} />
-      </Layout>
+        <div>
+            <Routes />
+        </div>
     );
-  }
 }
+
+export default App;

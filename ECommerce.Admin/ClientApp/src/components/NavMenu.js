@@ -32,6 +32,9 @@ export class NavMenu extends Component {
                 <NavItem>
                         <NavLink tag={Link} className="navbar-link" to="/image"><i class="fa-solid fa-image"></i> Image</NavLink>
                 </NavItem>
+                <NavItem>
+                    <NavLink tag={Link} className="navbar-link" to="/product-list"><i class="fa-solid fa-image"></i> Test</NavLink>
+                </NavItem>
                 
               </ul>
             </Navbar>
