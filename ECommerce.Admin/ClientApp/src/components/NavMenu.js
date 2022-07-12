@@ -27,13 +27,10 @@ export class NavMenu extends Component {
                         <NavLink tag={Link} className="navbar-link" to="/counter"><i class="fa fa-list-alt" aria-hidden="true"></i> Cateogry</NavLink>
                 </NavItem>
                 <NavItem>
-                        <NavLink tag={Link} className="navbar-link" to="/vegetable"><i class="fa-solid fa-apple-whole"></i> Product</NavLink>
+                        <NavLink tag={Link} className="navbar-link" to="/product-list"><i class="fa-solid fa-apple-whole"></i> Product</NavLink>
                 </NavItem>
                 <NavItem>
                         <NavLink tag={Link} className="navbar-link" to="/image"><i class="fa-solid fa-image"></i> Image</NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink tag={Link} className="navbar-link" to="/product-list"><i class="fa-solid fa-image"></i> Test</NavLink>
                 </NavItem>
                 
               </ul>

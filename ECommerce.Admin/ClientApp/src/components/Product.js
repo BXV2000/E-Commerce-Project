@@ -2,8 +2,6 @@
 import React, { Component } from 'react';
 import "../css/ProductList.css";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
-import { ThirtyFpsRounded } from '@mui/icons-material';
 
 
 let baseURL = "https://localhost:7024/api/"
@@ -14,6 +12,7 @@ export class Product extends Component {
             id:this.props.match.params.productId,
             product:[],
             imageURL:"",
+            categories:[]
         };
     }
     
@@ -21,22 +20,33 @@ export class Product extends Component {
         axios.get(baseURL+"vegetable/"+id)
             .then(res => {
                 this.setState({product:res.data});
-                console.log(this.state.product.images[0].imageURL)
                 this.refs.Name.value = res.data.name
                 this.refs.CategoryID.value = res.data.categoryId
                 this.refs.Price.value = res.data.price
                 this.refs.Stock.value = res.data.stock
                 this.setState({imageURL:this.state.product.images[0].imageURL+"/"+this.state.product.images[0].id})
+                axios.get(baseURL+"category")
+                .then(res => {
+                    this.setState({categories:res.data});
+                    })
+            })  
+            axios.get(baseURL+"category") 
+            .then(res => {
+                this.setState({categories:res.data});
+                axios.get(baseURL+"vegetable/"+id)
+                .then(res => {
+                    this.setState({product:res.data});
+                    this.refs.Name.value = res.data.name
+                    this.refs.Price.value = res.data.price
+                    this.refs.Stock.value = res.data.stock
+                    this.setState({imageURL:this.state.product.images[0].imageURL+"/"+this.state.product.images[0].id})
+                })    
             })
     }
 
     updateData=(e)=>{
         e.preventDefault();
         var imagefile = document.querySelector('#file');
-        if(!imagefile.files[0]){
-            alert("Please choose image");
-            return;
-        }
         let data = {
             Name: this.refs.Name.value,
             CategoryId: this.refs.CategoryID.value,
@@ -44,22 +54,37 @@ export class Product extends Component {
             Stock: this.refs.Stock.value
         };
         let img = new FormData();
-        
         img.append('File', imagefile.files[0]);
         img.append('ImageName', "String");
         img.append('ImageURL', "URL");
-        console.log(img.get('File'));
+        img.append('VegetableId',this.state.product.id);
         axios.put(baseURL + "vegetable/" + this.state.product.id, data)
-            .then(axios.put(baseURL + "image/" + this.state.product.images[0].id, img))
             .then(res => {
-                this.setState({ message: res.data })
-                alert("Product update Success!");
-                window.location.href = "/product-list";
+                if(imagefile.files[0])
+                {
+                    if(this.state.product.images.length!=0)
+                    {
+                    axios.put(baseURL + "image/" + this.state.product.images[0].id, img);
+                    alert("Product update Success!");
+                    window.location.href = "/product-list";
+                    }
+                    else
+                    {
+                    axios.post(baseURL + "image", img); 
+                    alert("Product update Success!");
+                    window.location.href = "/product-list";
+                    }
+                }
+                else{
+                    alert("Product update Success!");
+                    window.location.href = "/product-list";
+                }
             })
             .catch(error => {
                 this.setState({ message: error.response.data });
                 alert(this.state.message);
             })
+        
     }
 
     componentDidMount() {
@@ -69,12 +94,11 @@ export class Product extends Component {
    
 
     render() {
-        const { product } = this.state;
+        const { product,categories } = this.state;
         return (
             <div className="product-single">
                 <div className="product-single-title-container">
                     <h1 className="product-single-title">Edit Product</h1>
-                    <button className="button">Create</button>
                 </div>
                 <div className="product-single-container">
                     <div className="product-single-show">
@@ -116,12 +140,11 @@ export class Product extends Component {
                                 </div>
                                 <div className="product-single-update-item">
                                     <label >Category ID:</label>
-                                    <input 
-                                        type="number" 
-                                        className="product-single-update-input" 
-                                        placeholder={product.categoryId}
-                                        ref="CategoryID"
-                                    />
+                                    <select className="product-single-update-input" name="active" id="active" ref="CategoryId" value={product.categoryId} >
+                                        {categories.map((category,index)=>{
+                                            return <option key={index} value={category.id} >{category.name}</option>
+                                        })}
+                                    </select>
                                 </div>
                                 <div className="product-single-update-item">
                                     <label >Price:</label>

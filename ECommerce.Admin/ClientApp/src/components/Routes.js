@@ -15,6 +15,7 @@ import { Image } from './Image';
 import { ImageCreate } from './ImageCreate';
 import { ProductList } from './ProductList';
 import { Product } from './Product';
+import { ProductCreate } from './ProductCreate';
 
 
 function Routes() {
@@ -29,6 +30,7 @@ function Routes() {
                     <RouteGuard path='/vegetable' component={Vegetable} />
                     <RouteGuard path='/vegetable-create' component={VegetableCreate} />
                     <RouteGuard path='/product-list' component={ProductList} />
+                    <RouteGuard path='/product-create' component={ProductCreate} />
                     <RouteGuard path='/product/:productId' component={Product} />
                 </Layout>
             </Switch>

@@ -33,9 +33,9 @@ const columns: GridColDef[] = [
             return (
                 <div className="button-list">
                     <Link to={"/product/" + params.row.id}>
-                        <button className="button " >Edit</button>
+                        <button className="button product-list-button" >Edit</button>
                     </Link>
-                    <button className="button delete-button" onClick={()=>handleDelete(params.row.id) }>Delete</button>
+                    <button className="button delete-button product-list-button" onClick={()=>handleDelete(params.row.id) }>Delete</button>
                 </div>
                 );
         }
@@ -77,16 +77,24 @@ export class ProductList extends Component {
     render() {
         const { vegetables } = this.state;
         return (
-            <div className="product-list">
-                <DataGrid
-                    rows={vegetables}
-                    columns={columns}
-                    pageSize={10}
-                    rowsPerPageOptions={[10]}
-                    checkboxSelection
-                    disableSelectionOnClick
-                />
-            </div>
+            <>     
+                <div className="product-list-top">   
+                    <h1>Product List</h1>            
+                    <Link to={"/product-create"}>
+                    <button className="button">Create</button>
+                    </Link>
+                </div>
+                <div className="product-list">
+                    <DataGrid
+                        rows={vegetables}
+                        columns={columns}
+                        pageSize={10}
+                        rowsPerPageOptions={[10]}
+                        checkboxSelection
+                        disableSelectionOnClick
+                    />
+                </div>
+            </>
         )
     }
 }
