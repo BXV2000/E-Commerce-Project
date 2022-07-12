@@ -27,7 +27,7 @@ namespace ECommerce.API.Data.Repositories
 
         public async Task<Vegetable> GetByIdAsync(int id)
         {
-            return await _context.Vegetables.FirstOrDefaultAsync(image => image.Id == id);
+            return await _context.Vegetables.FirstOrDefaultAsync(vegetable => vegetable.Id == id); ;
         }
 
         public async Task<Vegetable> PostAsync(Vegetable vegetable)
@@ -37,9 +37,15 @@ namespace ECommerce.API.Data.Repositories
             return vegetable;
         }
 
-        public Task<Vegetable> PutAsync(int id, Vegetable vegetable)
+        public async Task<Vegetable> PutAsync(int id, Vegetable vegetable)
         {
-            throw new NotImplementedException();
+            var getVegetable = await _context.Vegetables.FirstOrDefaultAsync(vege => vege.Id == id);
+            getVegetable.Name = vegetable.Name;
+            getVegetable.CategoryId = vegetable.CategoryId;
+            getVegetable.Price = vegetable.Price;
+            getVegetable.Stock = vegetable.Stock;
+            await _context.SaveChangesAsync();
+            return getVegetable;
         }
     }
 }

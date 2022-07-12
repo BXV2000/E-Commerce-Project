@@ -31,7 +31,6 @@ function Routes() {
                     <RouteGuard path='/product-list' component={ProductList} />
                     <RouteGuard path='/product/:productId' component={Product} />
                 </Layout>
-               
             </Switch>
         </Router>
     );

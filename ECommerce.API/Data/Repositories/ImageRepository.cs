@@ -40,7 +40,7 @@ namespace ECommerce.API.Data.Repositories
         public async Task<Image> PutAsync(int id, Image image)
         {
             var getImage = await _context.Images.FirstOrDefaultAsync(image => image.Id == id);
-            getImage.VegetableId = image.VegetableId;
+            getImage.ImageName = image.ImageName;
             getImage.ImageURL = image.ImageURL;
             await _context.SaveChangesAsync();
             return getImage;

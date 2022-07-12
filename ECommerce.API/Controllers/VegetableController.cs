@@ -78,43 +78,23 @@ namespace ECommerce.API.Controllers
         }
 
         ////Update Vegetable
-        //[HttpPut("{id}")]
-        //public IActionResult Put(int id, VegetableModel info)
-        //{
-        //    try
-        //    {
-        //        using (var context = new ECommerceDbContext())
-        //        {
-        //            var vegetable = context.Vegetables.Find(id);
-        //            var checkCategory = context.Categories.Find(info.CategoryId);
-        //            if (vegetable == null || vegetable.IsDeleted == true) return NotFound("Vegetable not found");
-        //            if (checkCategory == null || checkCategory.IsDeleted == true) return NotFound("Category not found");
-        //            vegetable.CategoryId = info.CategoryId;
-        //            vegetable.Name = info.Name;
-        //            vegetable.MFGDate = info.MFGDate;
-        //            vegetable.EXPDate = info.EXPDate;
-        //            vegetable.Price = info.Price;
-        //            vegetable.Stock = info.Stock;
-        //            context.Entry(vegetable).State = EntityState.Modified;
-        //            context.SaveChanges();
-        //            return Ok(new VegetableModel
-        //            {
-        //                Id = vegetable.Id,
-        //                CategoryId = vegetable.CategoryId,
-        //                Name = vegetable.Name,
-        //                MFGDate = vegetable.MFGDate,
-        //                EXPDate = vegetable.EXPDate,
-        //                Price = vegetable.Price,
-        //                Stock = vegetable.Stock,
-        //                IsDeleted = vegetable.IsDeleted
-        //            });
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return BadRequest("Something went wrong");
-        //    }
-        //}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, VegetableDTO info)
+        {
+            try
+            {
+                var vege = _mapper.Map<Vegetable>(info);
+                var putVegetable = await _vegetable.PutAsync(id, vege);
+                //var checkVegetable = _context.Vegetables.Find(info.VegetableId);
+                //if (checkVegetable == null || checkVegetable.IsDeleted == true) return NotFound("Vegetable not found");
+                var returnVegetable = _mapper.Map<VegetableDTO>(putVegetable);
+                return Ok(returnVegetable);
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
+        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)

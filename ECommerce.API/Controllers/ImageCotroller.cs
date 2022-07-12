@@ -108,16 +108,34 @@ namespace ECommerce.API.Controllers
 
         // Update Image
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, ImageDTO info)
+        public async Task<IActionResult> Put(int id, [FromForm]ImageDTO info)
         {
+            var baseURL = "https://localhost:7024/api/Image";
             try
             {
-                var image = _mapper.Map<Image>(info);
-                var putImage = await _image.PutAsync(id, image);
+                //var image = _mapper.Map<Image>(info);
+                string path = _webHostEnvironemnet.WebRootPath + "\\uploads\\";
+                string fileURL = _webHostEnvironemnet.WebRootPath + "\\uploads\\" + info.File.FileName;
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                using (FileStream fileStream = System.IO.File.Create(path + info.File.FileName))
+                {
+                    info.File.CopyTo(fileStream);
+                    fileStream.Flush();
+                    info.ImageName = info.File.FileName;
+                    info.ImageURL = baseURL;
+                    var putImage = _mapper.Map<Image>(info);
+                    var image = await _image.PutAsync(id, putImage);
+                    var returnImage = _mapper.Map<ImageDTO>(image);
+                    return Ok("Upload Done");
+                }
+                //var putImage = await _image.PutAsync(id, image);
                 //var checkVegetable = _context.Vegetables.Find(info.VegetableId);
                 //if (checkVegetable == null || checkVegetable.IsDeleted == true) return NotFound("Vegetable not found");
-                var returnImage = _mapper.Map<ImageDTO>(putImage);
-                return Ok(returnImage);
+                //var returnImage = _mapper.Map<ImageDTO>(putImage);
+                //return Ok(returnImage);
             }
             catch
             {
