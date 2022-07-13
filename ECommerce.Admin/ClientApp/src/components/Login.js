@@ -16,7 +16,6 @@ export class Login extends Component{
             Password: this.refs.Password.value
         }
         // Login request
-        console.log(loginPayload);
         if(loginPayload.Username==''||loginPayload.Password==''){
             alert("Do not leave fields empty!!!")
             return;
@@ -26,7 +25,7 @@ export class Login extends Component{
             .then((response) => {
                 // Get token from response
                 const token = response.data.token;
-                console.log(token);
+                
                 // Set JWT token to local
                 localStorage.setItem("token", token);
 
@@ -34,11 +33,20 @@ export class Login extends Component{
                 setAuthToken(token);
 
                 // Redirect user to Home page
-                alert("Login Success. Redirecting to DashBoard")
-                window.location.href = "/";
+               
+                // window.location.href="/"
+                if(token){
+                    alert("Login success. Redirecting to Dashboard")
+                    window.location.href="/"
+                }
+                if(!token){
+                    alert("Wrong Username or Password")
+                }
+                // if(!response.data.token)
+                
             })
             .catch((error) => {
-                alert("Wrong Username or Password")
+                alert("Something went wrong")
             });
     };
     render() {
