@@ -1,6 +1,7 @@
 using ECommerce.API.Authorization;
 using ECommerce.API.Data;
 using ECommerce.API.Helpers;
+using ECommerce.API.Interfaces;
 using ECommerce.API.Services;
 using ECommerce.Customer.Services;
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +43,7 @@ var configuration = builder.Configuration;
 
     // Configure DI for application services
     services.AddScoped<IJwtUtils, JwtUtils>();
-    services.AddScoped<IUserService, UserService>();
+    services.AddScoped<IAuthenticateService, UserService>();
 
     /* services.AddTransient<IUserRepository, UserRepository>();
     services.AddTransient<ITokenService, TokenService>();

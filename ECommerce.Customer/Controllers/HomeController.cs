@@ -1,4 +1,5 @@
 ﻿
+using ECommerce.API.Interfaces;
 using ECommerce.API.Services;
 using ECommerce.Customer.Models;
 using ECommerce.Customer.Services;
@@ -18,10 +19,10 @@ namespace ECommerce.Customer.Controllers
         List<VegetableDTO> viewVegetables = new List<VegetableDTO>();
         IVegetableService vegetableService = RestService.For<IVegetableService>("https://localhost:7024/api");
         private readonly ILogger<HomeController> _logger;
-        private IUserService _userService;
+        private IAuthenticateService _userService;
 
 
-        public HomeController(IUserService userService)
+        public HomeController(IAuthenticateService userService)
         {
             _userService = userService;
         }

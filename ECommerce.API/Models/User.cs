@@ -20,7 +20,6 @@ namespace ECommerce.API.Models
 
         public virtual Cart Cart { get; set; }
         public virtual Address Address { get; set; }
-        public virtual List<Rating> Ratings { get; set; } = new List<Rating>();
         public virtual List<Order> Orders { get; set; } = new List<Order>();
     }
 }
