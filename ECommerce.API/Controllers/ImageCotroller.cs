@@ -31,7 +31,7 @@ namespace ECommerce.API.Controllers
                 var imageDTOs = _mapper.Map<List<ImageDTO>>(getImages);
                 
                 if (!imageDTOs.Any()) return NotFound("Image Empty");
-                return Ok(imageDTOs.Where(image => image.IsDeleted==false));
+                return Ok(imageDTOs);
             }
             catch
             {

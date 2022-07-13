@@ -16,6 +16,10 @@ import { ImageCreate } from './ImageCreate';
 import { ProductList } from './ProductList';
 import { Product } from './Product';
 import { ProductCreate } from './ProductCreate';
+import { CategoryList } from './CategoryList';
+import { Category } from './Category';
+import { CategoryCreate } from './CategoryCreate';
+import { UserList } from './UserList';
 
 
 function Routes() {
@@ -29,9 +33,13 @@ function Routes() {
                     <RouteGuard path='/image-create' component={ImageCreate} />
                     <RouteGuard path='/vegetable' component={Vegetable} />
                     <RouteGuard path='/vegetable-create' component={VegetableCreate} />
+                    <RouteGuard path='/category-list' component={CategoryList} />
+                    <RouteGuard path='/category/:categoryId' component={Category} />
+                    <RouteGuard path='/category-create' component={CategoryCreate} />
                     <RouteGuard path='/product-list' component={ProductList} />
                     <RouteGuard path='/product-create' component={ProductCreate} />
                     <RouteGuard path='/product/:productId' component={Product} />
+                    <RouteGuard path='/user-list' component={UserList} />
                 </Layout>
             </Switch>
         </Router>

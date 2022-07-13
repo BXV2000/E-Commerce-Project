@@ -22,7 +22,7 @@ namespace ECommerce.API.Data.Repositories
 
         public async Task<List<Vegetable>> GetAsync()
         {
-            return await _context.Vegetables.ToListAsync();
+            return await _context.Vegetables.Where(vege => vege.IsDeleted == false).ToListAsync();
         }
 
         public async Task<Vegetable> GetByIdAsync(int id)

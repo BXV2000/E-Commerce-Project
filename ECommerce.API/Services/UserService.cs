@@ -2,23 +2,17 @@
 using ECommerce.API.Authorization;
 using ECommerce.API.Data;
 using ECommerce.API.Helpers;
+using ECommerce.API.Interfaces;
 using ECommerce.API.Models;
 using ECommerce.API.Models.Enums;
 using ECommerce.SharedDataModels;
 using ECommerce.SharedDataModels.Authenticate;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace ECommerce.API.Services
 {
-    public interface IUserService
-    {
-        AuthenticateResponseDTO Authenticate(AuthenticateRequestDTO model);
-        UserDTO Register(RegisterRequestDTO model);
-        IEnumerable<UserDTO> GetAll();
-        UserDTO GetById(int id);
-    }
-
-    public class UserService : IUserService
+    public class UserService : IAuthenticateService
     {
         private ECommerceDbContext _context;
         private IJwtUtils _jwtUtils;
@@ -81,6 +75,7 @@ namespace ECommerce.API.Services
             return _mapper.Map<IEnumerable<UserDTO>>(_context.Users);
         }
 
+
         public UserDTO GetById(int id)
         {
             var user = _context.Users.Find(id);
@@ -89,7 +84,6 @@ namespace ECommerce.API.Services
                 throw new KeyNotFoundException("User not found");
             return userDto;
         }
-
 
 
     }

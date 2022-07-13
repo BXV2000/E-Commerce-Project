@@ -11,12 +11,15 @@ export class NavMenu extends Component {
 
   }
 
+  handleLogOut=()=>{
+    localStorage.removeItem("token");
+    window.location.href ="/login";
+  }
 
 
   render () {
     return (
-      <>
-           
+      <>     
         <Navbar className="navbar" light>
             <NavbarBrand tag={Link} to="/"><img src="/NavbarLogo.png" alt="Logo" className="navbar-logo"/></NavbarBrand>
               <ul className="navbar-nav">
@@ -24,15 +27,15 @@ export class NavMenu extends Component {
                         <NavLink tag={Link} className="navbar-link" to="/"><i class="fa-solid fa-house"></i> Home</NavLink>
                 </NavItem>
                 <NavItem>
-                        <NavLink tag={Link} className="navbar-link" to="/counter"><i class="fa fa-list-alt" aria-hidden="true"></i> Cateogry</NavLink>
+                        <NavLink tag={Link} className="navbar-link" to="/category-list"><i class="fa fa-list-alt" aria-hidden="true"></i> Categories</NavLink>
                 </NavItem>
                 <NavItem>
-                        <NavLink tag={Link} className="navbar-link" to="/product-list"><i class="fa-solid fa-apple-whole"></i> Product</NavLink>
+                        <NavLink tag={Link} className="navbar-link" to="/product-list"><i class="fa-solid fa-apple-whole"></i> Products</NavLink>
                 </NavItem>
                 <NavItem>
-                        <NavLink tag={Link} className="navbar-link" to="/image"><i class="fa-solid fa-image"></i> Image</NavLink>
+                        <NavLink tag={Link} className="navbar-link" to="/user-list"><i class="fa fa-user" aria-hidden="true"></i> Users</NavLink>
                 </NavItem>
-                
+                <button className="button logout-button" onClick={this.handleLogOut}>Logout</button>
               </ul>
             </Navbar>
       </>

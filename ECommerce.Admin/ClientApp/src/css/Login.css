@@ -1,0 +1,18 @@
+﻿.login-container{
+    display: flex;
+    background-color: #42C3AA;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-input-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    max-width: 600px;
+    max-height: 400px;
+    border-radius: 15px;
+}

@@ -1,20 +1,26 @@
 import React, { Component, useRef } from "react";
 import axios from "axios";
 import { setAuthToken } from "../helpers/setAuthToken";
+import '../css/Login.css';
+
 
 let baseAddress = "https://localhost:7024/api/";
-
 export class Login extends Component{
     // Base api URL
 
 
-    handleSubmit = () => {
+    handleSubmit = (e) => {
+        e.preventDefault();
         let loginPayload = {
             Username: this.refs.Username.value,
             Password: this.refs.Password.value
         }
         // Login request
         console.log(loginPayload);
+        if(loginPayload.Username==''||loginPayload.Password==''){
+            alert("Do not leave fields empty!!!")
+            return;
+        }
         axios
             .post(baseAddress + "user/authenticate", loginPayload)
             .then((response) => {
@@ -28,56 +34,50 @@ export class Login extends Component{
                 setAuthToken(token);
 
                 // Redirect user to Home page
+                alert("Login Success. Redirecting to DashBoard")
                 window.location.href = "/";
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                alert("Wrong Username or Password")
+            });
     };
     render() {
         return (
-            <section className="vh-100" style={{ backgroundColor: "#508bfc" }}>
-                <div className="container py-5 h-100">
-                    <div className="row d-flex justify-content-center align-items-center h-100">
-                        <div className="col-12 col-md-8 col-lg-6 col-xl-5">
-                            <div className="card shadow-2-strong" style={{ borderRadius: 25 }}>
-                                <div className="card-body p-5 text-center">
-                                    <h2 className="mb-5">Log In</h2>
-                                   
-                                        <div className="form-group mb-4">
-                                            <input
-                                                type="text"
-                                                className="form-control form-control-lg"
-                                                id="username"
-                                                name="username"
-                                                placeholder="Username"
-                                                ref="Username"
-                                                required
-                                            />
-                                        </div>
-                                        <div className="form-outline mb-4">
-                                            <input
-                                                type="password"
-                                                className="form-control form-control-lg"
-                                                id="password"
-                                                name="password"
-                                                placeholder="Password"
-                                                ref="Password"
-                                                required
-                                            />
-                                        </div>
-                                        <button
-                                        className="btn btn-primary btn-lg btn-block"
-                                        type="submit"
-                                        onClick={this.handleSubmit}
-                                        >
-                                            Login
-                                        </button>
-                                </div>
-                            </div>
+            <div className="login-container">
+                <form className="card-body p-5 text-center login-input-container">
+                    <h2 className="mb-5">Log In</h2>
+                        <div className="form-group mb-4">
+                            <input
+                                type="text"
+                                className="form-control form-control-lg"
+                                id="username"
+                                name="username"
+                                placeholder="Username"
+                                ref="Username"
+                                required
+                            />
                         </div>
-                    </div>
-                </div>
-            </section>
-        );
+                        <div className="form-outline mb-4">
+                            <input
+                                type="password"
+                                className="form-control form-control-lg"
+                                id="password"
+                                name="password"
+                                placeholder="Password"
+                                ref="Password"
+                                required
+                            />
+                        </div>
+                        <button
+                        className="button"
+                        type="submit"
+                        onClick={this.handleSubmit}
+                        >
+                            Login
+                        </button>
+                </form>
+            </div>
+          );
     }
 }
 

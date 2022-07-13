@@ -1,4 +1,5 @@
 ﻿using ECommerce.API.Helpers;
+using ECommerce.API.Interfaces;
 using ECommerce.API.Services;
 using Microsoft.Extensions.Options;
 
@@ -15,7 +16,7 @@ namespace ECommerce.API.Authorization
             _appSettings = appSettings.Value;
         }
 
-        public async Task Invoke(HttpContext context, IUserService userService, IJwtUtils jwtUtils)
+        public async Task Invoke(HttpContext context, IAuthenticateService userService, IJwtUtils jwtUtils)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             var userId = jwtUtils.ValidateJwtToken(token);

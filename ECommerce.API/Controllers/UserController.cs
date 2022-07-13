@@ -1,4 +1,6 @@
-﻿using ECommerce.API.Authorization;
+﻿using AutoMapper;
+using ECommerce.API.Authorization;
+using ECommerce.API.Interfaces;
 using ECommerce.API.Services;
 using ECommerce.SharedDataModels;
 using ECommerce.SharedDataModels.Authenticate;
@@ -13,10 +15,15 @@ namespace ECommerce.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private IUserService _userService;
-        public UserController(IUserService userService)
+        private IAuthenticateService _userService;
+        private IUserRepository _user;
+        private readonly IMapper _mapper;
+
+        public UserController(IAuthenticateService userService, IUserRepository user, IMapper mapper)
         {
             _userService = userService;
+            _user = user;
+            _mapper = mapper;   
         }
 
         [AllowAnonymous]
@@ -45,6 +52,25 @@ namespace ECommerce.API.Controllers
 
             var user = _userService.GetById(id);
             return Ok(user);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            try
+            {
+                var getUsers = await _user.GetAsync();
+                if (!getUsers.Any()) return NotFound("Category Empty");
+                var userDTOs = _mapper.Map<List<UserDTO>>(getUsers);
+                return Ok(userDTOs);
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
+
+
         }
     }
 }

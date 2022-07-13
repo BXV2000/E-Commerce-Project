@@ -1,4 +1,4 @@
-import "../css/Product.css"
+import "../css/User.css"
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import axios from 'axios';
 import React, { Component } from 'react';
@@ -13,35 +13,27 @@ const handleDelete = (id) => {
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'name', headerName: 'Product Name', width: 250 },
-    { field: 'categoryId', headerName: 'Category ID', width: 150 },
-    {
-        field: 'price',
-        headerName: 'Price',
-        type: 'number',
-        width: 150,
-    },
-    {
-        field: 'stock',
-        headerName: 'Stock',
-        type: 'number',
-        width: 100,
-    },
-    {
-        field: 'action',
-        headerName: '',
-        width: 200,
-        renderCell: (params) => {
-            return (
-                <div className="button-list">
-                    <Link to={"/product/" + params.row.id}>
-                        <button className="button product-list-button" >Edit</button>
-                    </Link>
-                    <button className="button delete-button product-list-button" onClick={()=>handleDelete(params.row.id) }>Delete</button>
-                </div>
-                );
-        }
-    },
+    { field: 'firstName', headerName: 'First Name', width: 150 },
+    { field: 'lastName', headerName: 'Last Name', width: 150 },
+    { field: 'role', headerName: 'Role', width: 150 },
+    { field: 'username', headerName: 'Username', width: 150 },
+    { field: 'phone', headerName: 'Phone', width: 200 },
+    { field: 'email', headerName: 'Email', width: 200 },
+    // {
+    //     field: 'action',
+    //     headerName: '',
+    //     width: 200,
+    //     renderCell: (params) => {
+    //         return (
+    //             <div className="button-list">
+    //                 <Link to={"/product/" + params.row.id}>
+    //                     <button className="button user-list-button" >Edit</button>
+    //                 </Link>
+    //                 <button className="button delete-button user-list-button" onClick={()=>handleDelete(params.row.id) }>Delete</button>
+    //             </div>
+    //             );
+    //     }
+    // },
     //{
     //    field: 'fullName',
     //    headerName: 'Full name',
@@ -54,18 +46,18 @@ const columns: GridColDef[] = [
 ];
 
 let baseURL = "https://localhost:7024/api/"
-export class ProductList extends Component {
+export class UserList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            vegetables: [],
+            users: [],
             sortModel:[{field: 'id',sort: 'desc',}],
         };
     }
     refreshList() {
-        axios.get(baseURL + "Vegetable")
+        axios.get(baseURL + "User")
             .then(res => {
-                this.setState({ vegetables: res.data })
+                this.setState({ users: res.data })
             })
 
     }
@@ -78,18 +70,19 @@ export class ProductList extends Component {
     }
 
     render() {
-        const { sortModel, vegetables } = this.state;
+        const { sortModel, users } = this.state;
+        console.log(users)
         return (
             <>     
-                <div className="product-list-top">   
-                    <h1>Product List</h1>            
-                    <Link to={"/product-create"}>
+                <div className="user-list-top">   
+                    <h1>User List</h1>            
+                    {/* <Link to={"/product-create"}>
                     <button className="button">Create</button>
-                    </Link>
+                    </Link> */}
                 </div>
-                <div className="product-list">
+                <div className="user-list">
                     <DataGrid
-                        rows={vegetables}
+                        rows={users}
                         columns={columns}
                         pageSize={10}
                         rowsPerPageOptions={[10]}

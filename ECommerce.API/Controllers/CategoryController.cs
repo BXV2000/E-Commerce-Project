@@ -31,7 +31,7 @@ namespace ECommerce.API.Controllers
                 var getCates = await _category.GetAsync();
                 if (!getCates.Any()) return NotFound("Category Empty");
                 var cateDTOs = _mapper.Map<List<CategoryDTO>>(getCates);
-                return Ok(cateDTOs.Where(image => image.IsDeleted == false));
+                return Ok(cateDTOs);
             }
             catch
             {
@@ -76,56 +76,41 @@ namespace ECommerce.API.Controllers
 
         }
 
-        //        //Put Category
-        //        [HttpPut("{id}")]
-        //        public IActionResult Put(int id, CategoryModel info)
-        //        {
-        //            try
-        //            {
-        //                Category updateCategory;
-        //                using (var context = new ECommerceDbContext())
-        //                {
-        //                    var category = context.Categories.Find(id);
-        //                    if (category == null || category.IsDeleted == true) return NotFound("Category not found :(");
-        //                    category.Name = info.Name;
-        //                    category.Description = info.Description;
-        //                    context.Entry(category).State = EntityState.Modified;
-        //                    context.SaveChanges();
-        //                    return Ok(new CategoryModel
-        //                    {
-        //                        Id = category.Id,
-        //                        Name = category.Name,
-        //                        Description = category.Description,
-        //                    });
-        //                }
-        //            }
-        //            catch
-        //            {
-        //                return BadRequest("Something went wrong");
-        //            }
-        //        }
+        //Put Category
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, CategoryDTO info)
+        {
+            try
+            {
+                var cate = _mapper.Map<Category>(info);
+                var putCate = await _category.PutAsync(id, cate);
+                //var checkVegetable = _context.Vegetables.Find(info.VegetableId);
+                //if (checkVegetable == null || checkVegetable.IsDeleted == true) return NotFound("Vegetable not found");
+                var returnCate = _mapper.Map<CategoryDTO>(putCate);
+                return Ok(returnCate);
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
+        }
 
-        //        //Delete Category
-        //        [HttpDelete("{id}")]
-        //        public IActionResult Delete(int id)
-        //        {
-        //            try
-        //            {
-        //                using (var context = new ECommerceDbContext())
-        //                {
-        //                    var category = context.Categories.Find(id);
-        //                    if (category == null || category.IsDeleted == true) return NotFound("Category not found :(");
-        //                    category.IsDeleted = true;
-        //                    context.Entry(category).State = EntityState.Modified;
-        //                    context.SaveChanges();
-        //                    return Ok($"Category with id = {id} was deleted ");
-        //                }
-        //            }
-        //            catch
-        //            {
-        //                return BadRequest("Something went wrong");
-        //            }
-        //        }
+        //Delete Category
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var checkCate = await _category.GetByIdAsync(id);
+                if (checkCate == null || checkCate.IsDeleted == true) return NotFound("Category not found");
+                await _category.DeleteAsync(id);
+                return Ok("Category Deleted");
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
+        }
 
 
     }

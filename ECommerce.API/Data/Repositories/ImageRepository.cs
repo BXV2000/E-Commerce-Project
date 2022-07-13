@@ -22,7 +22,7 @@ namespace ECommerce.API.Data.Repositories
 
         public async Task<List<Image>> GetAsync()
         {
-            return await _context.Images.ToListAsync();
+            return await _context.Images.Where(image => image.IsDeleted == false).ToListAsync();
         }
 
         public async Task<Image> GetByIdAsync(int id)

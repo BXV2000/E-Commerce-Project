@@ -1,8 +1,8 @@
 
 import React, { Component } from 'react';
-import "../css/ProductList.css";
+import "../css/Product.css";
 import axios from 'axios';
-
+import { Link } from "react-router-dom";
 
 let baseURL = "https://localhost:7024/api/"
 export class Product extends Component {
@@ -104,25 +104,31 @@ export class Product extends Component {
                     <div className="product-single-show">
                         <div className="product-single-show-top">
                             <img  src={(this.state.imageURL)?this.state.imageURL:"/ProductDummy.jpg"} alt="" className="product-single-img" />
-                            <div className="product-single-show-top-title">
-                                <span className="product-single-name">{product.name}</span>
-                                <span className="product-single-id">{product.id}</span>
-                            </div>
                         </div>
                         <div className="product-single-show-bottom">
                             <span className="product-single-show-bottom-title">Product Detail </span>
-                            <div className="product-single-info">
-                                <span className="product-single-tag">Category ID: </span>
-                                <span className="product-single-data">{product.categoryId}</span>
-                            </div>
-                            <div className="product-single-info">
-                                <span className="product-single-tag">Price: </span>
-                                <span className="product-single-data">{product.price}</span>
-                            </div>
-                            <div className="product-single-info">
-                                <span className="product-single-tag">Stock: </span>
-                                <span className="product-single-data">{product.stock}</span>
-                            </div>
+                            <table className="product-single-data-table">
+                                <tr className="">
+                                    <th className="product-single-show-label">Product Name</th>
+                                    <th className="product-single-show-data">{product.name}</th>
+                                </tr>
+                                <tr className="">
+                                    <th className="product-single-show-label">Product ID</th>
+                                    <th className="product-single-show-data">{product.id}</th>
+                                </tr>
+                                <tr className="">
+                                    <th className="product-single-show-label">Category ID</th>
+                                    <th className="product-single-show-data">{product.categoryId}</th>
+                                </tr>
+                                <tr className="">
+                                    <th className="product-single-show-label">Price</th>
+                                    <th className="product-single-show-data">{product.price}</th>
+                                </tr>
+                                <tr className="">
+                                    <th className="product-single-show-label">Stock</th>
+                                    <th className="product-single-show-data">{product.stock}</th>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                     <div className="product-single-update">
@@ -172,6 +178,9 @@ export class Product extends Component {
                                 <input type="file" id='file' ref="ImageUpload" className="product-single-update-img-input"/>
                                 </div>
                                 <button className="button" onClick={this.updateData}>Update</button>
+                                <Link to={"/product-list"}>
+                                    <button className="button">Cancel</button>
+                                </Link>
                             </div>
                         </form>
                     </div>

@@ -32,7 +32,7 @@ namespace ECommerce.API.Controllers
                 var getVegetables = await _vegetable.GetAsync();
                 if (!getVegetables.Any()) return NotFound("Vegies Empty");
                 var vegetableDTOs = _mapper.Map<List<VegetableDTO>>(getVegetables);
-                return Ok(vegetableDTOs.Where(image => image.IsDeleted == false));
+                return Ok(vegetableDTOs);
             }
             catch
             {
@@ -102,9 +102,9 @@ namespace ECommerce.API.Controllers
             try
             {
                 var checkVegetable = await _vegetable.GetByIdAsync(id);
-                if (checkVegetable == null || checkVegetable.IsDeleted == true) return NotFound("Image not found");
+                if (checkVegetable == null || checkVegetable.IsDeleted == true) return NotFound("Vegetable not found");
                 await _vegetable.DeleteAsync(id);
-                return Ok("Image Deleted");
+                return Ok("Deleted");
             }
             catch
             {

@@ -1,32 +1,20 @@
-import "../css/Product.css"
+import "../css/Category.css"
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import axios from 'axios';
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 
 const handleDelete = (id) => {
-    axios.delete(baseURL + "Vegetable/" + id)
+    axios.delete(baseURL + "category/" + id)
     .then(res => {
-        alert("Product Deleted!");
+        alert("Category Deleted!");
     })
 }
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'name', headerName: 'Product Name', width: 250 },
-    { field: 'categoryId', headerName: 'Category ID', width: 150 },
-    {
-        field: 'price',
-        headerName: 'Price',
-        type: 'number',
-        width: 150,
-    },
-    {
-        field: 'stock',
-        headerName: 'Stock',
-        type: 'number',
-        width: 100,
-    },
+    { field: 'name', headerName: 'Category Name', width: 250 },
+    { field: 'description', headerName: 'Description', width: 300 },
     {
         field: 'action',
         headerName: '',
@@ -34,10 +22,10 @@ const columns: GridColDef[] = [
         renderCell: (params) => {
             return (
                 <div className="button-list">
-                    <Link to={"/product/" + params.row.id}>
-                        <button className="button product-list-button" >Edit</button>
+                    <Link to={"/category/" + params.row.id}>
+                        <button className="button category-list-button" >Edit</button>
                     </Link>
-                    <button className="button delete-button product-list-button" onClick={()=>handleDelete(params.row.id) }>Delete</button>
+                    <button className="button delete-button category-list-button" onClick={()=>handleDelete(params.row.id) }>Delete</button>
                 </div>
                 );
         }
@@ -54,18 +42,18 @@ const columns: GridColDef[] = [
 ];
 
 let baseURL = "https://localhost:7024/api/"
-export class ProductList extends Component {
+export class CategoryList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            vegetables: [],
+            categories: [],
             sortModel:[{field: 'id',sort: 'desc',}],
         };
     }
     refreshList() {
-        axios.get(baseURL + "Vegetable")
+        axios.get(baseURL + "category")
             .then(res => {
-                this.setState({ vegetables: res.data })
+                this.setState({ categories: res.data })
             })
 
     }
@@ -78,22 +66,22 @@ export class ProductList extends Component {
     }
 
     render() {
-        const { sortModel, vegetables } = this.state;
+        const { sortModel,categories } = this.state;
         return (
             <>     
-                <div className="product-list-top">   
-                    <h1>Product List</h1>            
-                    <Link to={"/product-create"}>
+                <div className="category-list-top">   
+                    <h1>Category List</h1>            
+                    <Link to={"/category-create"}>
                     <button className="button">Create</button>
                     </Link>
                 </div>
-                <div className="product-list">
+                <div className="category-list">
                     <DataGrid
-                        rows={vegetables}
+                        rows={categories}
                         columns={columns}
                         pageSize={10}
-                        rowsPerPageOptions={[10]}
                         sortModel={sortModel}
+                        rowsPerPageOptions={[10]}
                         disableSelectionOnClick
                     />
                 </div>

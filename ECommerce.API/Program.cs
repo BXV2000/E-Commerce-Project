@@ -16,6 +16,7 @@ builder.Services.AddDbContext<ECommerceDbContext>(options => options.UseSqlServe
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IVegetableRepository, VegetableRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Add AutoMapper
 {
@@ -44,7 +45,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
     // Configure DI for application services
     services.AddScoped<IJwtUtils, JwtUtils>();
-    services.AddScoped<IUserService, UserService>();
+    services.AddScoped<IAuthenticateService, UserService>();
 }
 
 var app = builder.Build();

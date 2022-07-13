@@ -22,7 +22,7 @@ namespace ECommerce.API.Data.Repositories
 
         public async Task<List<Category>> GetAsync()
         {
-            return await _context.Categories.ToListAsync();
+            return await _context.Categories.Where(cate => cate.IsDeleted == false).ToListAsync();
         }
 
         public async Task<Category> GetByIdAsync(int id)
@@ -37,9 +37,13 @@ namespace ECommerce.API.Data.Repositories
             return c;
         }
 
-        public Task<Category> PutAsync(int id, Category c)
+        public async Task<Category> PutAsync(int id, Category c)
         {
-            throw new NotImplementedException();
+            var getCate = await _context.Categories.FirstOrDefaultAsync(cate => cate.Id == id);
+            getCate.Name = c.Name;
+            getCate.Description = c.Description;
+            await _context.SaveChangesAsync();
+            return getCate;
         }
     }
 }

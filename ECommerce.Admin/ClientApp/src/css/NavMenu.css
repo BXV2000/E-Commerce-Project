@@ -7,6 +7,11 @@
 html {
   font-size: 14px;
 }
+
+a{
+  text-decoration: none;
+}
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -60,6 +65,12 @@ html {
 
 .navbar-link:hover i {
     color: #42C3AA;
+}
+
+.logout-button{
+  position:absolute;
+  bottom: 50px;
+  min-width: 200px;
 }
 
 
