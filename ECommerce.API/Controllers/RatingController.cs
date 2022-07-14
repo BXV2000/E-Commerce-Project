@@ -58,6 +58,23 @@ namespace ECommerce.API.Controllers
             }
         }
 
+        ////Get Ratings by ProductId
+        [HttpGet("vegetable/{id}")]
+        public async Task<IActionResult> GetByProductId(int id)
+        {
+            try
+            {
+                var getRatings = await _rating.GetByVegetableIdAsync(id);
+                if (!getRatings.Any()) return NotFound("Ratings not found :(");
+                var ratingDTO = _mapper.Map<List<RatingDTO>>(getRatings);
+                return Ok(ratingDTO);
+            }
+            catch
+            {
+                return BadRequest("Something went wrong");
+            }
+        }
+
         ////Post Category
         [HttpPost]
         public async Task<IActionResult> Post(RatingDTO info)

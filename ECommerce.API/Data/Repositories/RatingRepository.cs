@@ -30,6 +30,11 @@ namespace ECommerce.API.Data.Repositories
             return await _context.Ratings.FirstOrDefaultAsync(r => r.Id == id);
         }
 
+        public async Task<List<Rating>> GetByVegetableIdAsync(int id)
+        {
+            return await _context.Ratings.Where(r => r.VegetableId == id && r.IsDeleted == false).ToListAsync();
+        }
+
         public async Task<Rating> PostAsync(Rating rating)
         {
             _context.Ratings.Add(rating);

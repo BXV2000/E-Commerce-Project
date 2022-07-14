@@ -1,4 +1,5 @@
 ﻿@using ECommerce.Customer.Models
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
 @model MultiModels
 
 @{
@@ -38,11 +39,28 @@
                     vulputate id metus. Vivamus rutrum erat metus, et gravida tortor aliquam consectetur. Interdum et
                     malesuada fames ac ante ipsum primis in faucibus.</p>
             </div>
+            <form method="post" asp-action="Rating" >
+            <table>
+                <div class="rating-input">
+                    <select name="RatingNumber" id="">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5" selected>5</option>
+                    </select>
+                    <input type="hidden" name="ProductId" value="@Model.Vegetable.Id"/>
+                    <p><i class="fa-solid fa-star"></i></p>
+                </div>
+            </table>
+
+            
             <div class="product-detail-buttons">
-             
-            <a class="button">ADD TO CART</a>
-            <a class="button" asp-controller="Shop" asp-action="Rating" asp-route-id="@Model.Vegetable.Id">RATE</a>
+            <button class="button">RATE</button>
+            <a class="button" asp-controller="Shop" asp-action="Detail" asp-route-id="@Model.Vegetable.Id">CANCEL</a>
+            
             </div>
+            </form>
         </div>
     </div> 
 </div>

@@ -6,6 +6,7 @@ namespace ECommerce.API.Interfaces
     {
         Task<List<Rating>> GetAsync();
         Task<Rating> GetByIdAsync(int id);
+        Task<List<Rating>> GetByVegetableIdAsync(int id);
         Task<Rating> PostAsync(Rating rating);
         Task<Rating> PutAsync(int id, Rating rating);
         Task DeleteAsync(int id);

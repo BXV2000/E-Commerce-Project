@@ -39,6 +39,7 @@ export class Product extends Component {
                     this.refs.Name.value = res.data.name
                     this.refs.Price.value = res.data.price
                     this.refs.Stock.value = res.data.stock
+                    this.refs.CategoryId.value = res.data.categoryId
                     this.setState({imageURL:this.state.product.images[0].imageURL+"/"+this.state.product.images[0].id})
                 })    
             })
@@ -49,7 +50,7 @@ export class Product extends Component {
         var imagefile = document.querySelector('#file');
         let data = {
             Name: this.refs.Name.value,
-            CategoryId: this.refs.CategoryID.value,
+            CategoryId: this.refs.CategoryId.value,
             Price: this.refs.Price.value,
             Stock: this.refs.Stock.value
         };
@@ -146,7 +147,7 @@ export class Product extends Component {
                                 </div>
                                 <div className="product-single-update-item">
                                     <label >Category ID:</label>
-                                    <select className="product-single-update-input" name="active" id="active" ref="CategoryId" value={product.categoryId} >
+                                    <select className="product-single-update-input" name="active" id="active" ref="CategoryId"  >
                                         {categories.map((category,index)=>{
                                             return <option key={index} value={category.id} >{category.name}</option>
                                         })}
