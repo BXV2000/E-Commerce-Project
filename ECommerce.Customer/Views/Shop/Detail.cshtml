@@ -14,7 +14,7 @@
     var totalRating = decimal.Parse(rating.ToString());
 }
 
-<div>
+<div class="product-detail-page">
     <div class="banner">
         <h1> <i class="fa-solid fa-seedling navbar-extra-icon"></i>@Model.Vegetable.Name</h1>
     </div>
@@ -45,4 +45,35 @@
             </div>
         </div>
     </div> 
+    <div class="homepage-best-seller">
+        <div class="homepage-best-seller-text">
+            <h2 >power of nature -</h2>
+            <h1>Best Sellers Products</h1>
+        </div>
+        <div class="homepage-products">
+            <div class="best-seller-row">
+                @if (Model != null)
+                {
+                    @foreach (var item in Model.Vegetables)
+                    {
+                        <div class="product">
+                            @if (!item.Images.Any())
+                            {
+                                <img src="/Images//ProductDummy.jpg" />
+                            }
+                            else{
+                             <img src="@item.Images[0].ImageURL/@item.Images[0].Id" />
+                            }
+                            <p class="product-name">@item.Name</p>
+                            <p>@item.Price</p>
+                            <div class="product-btns">
+                                <a class="button" asp-controller="Shop" asp-action="Detail" asp-route-id="@item.Id">SEE DETAIL</a>
+                                <a class="button">ADD TO CART</a>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
 </div>

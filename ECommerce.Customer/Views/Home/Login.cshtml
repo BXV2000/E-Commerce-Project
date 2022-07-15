@@ -2,44 +2,28 @@
 @{
     ViewData["Title"] = "Login";
 }
-<h1>@ViewData["Title"]</h1>
 
-<h2>Index</h2>
 
-<p>
-    <a asp-action="Create">Create Account</a>
-</p>
 <form asp-action="Login"> 
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @*@Html.DisplayNameFor(model => model.LastName)*@Username
-                </th>
-                <th>
-                    @*@Html.DisplayNameFor(model => model.FirstMidName)*@ Password
-                </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@*@foreach (var item in Model) {*@
-        <tr>
-            <td>
-                @*@Html.DisplayFor(modelItem => item.LastName)*@<input asp-for="Username" type="text" class="form-control" name="Username" />
-            </td>
-            <td>
-                @*@Html.DisplayFor(modelItem => item.FirstMidName)*@<input asp-for="Password" type="password" class="form-control" name="Password" />
-            </td>
-            <td>
-@*                <a asp-action="Edit" asp-route-id="">Edit</a> |
-                <a asp-action="Details" asp-route-id="">Details</a> |
-                <a asp-action="Delete" asp-route-id="">Delete</a>*@
-                 <button type="submit" class="btn btn-success btn-block mb-4">Login</button>
-                 @*<button type="submit" class="btn btn-success btn-block mb-4">Register</button>*@
-            </td>
-        </tr>
-@*}*@
-    </tbody>
-</table>
+<div class="login-container">
+    <div class="login-img">
+         <img src="/Images/LoginImg.jpg" />
+    </div>
+    <div class="login-form">
+        <div class="login-form-title"><h1>WELCOME</h1></div>
+        <div class="login-form-input-section">
+            <label class="login-label">Username</label>
+            <input asp-for="Username" type="text" class="login-form-input-field" name="Username" />
+            <label class="login-label">Password</label>
+            <input asp-for="Password" type="password" class="login-form-input-field" name="Password" />
+        </div>
+        <div class="login-form-forget-password-container">
+            <a asp-action="" class="login-form-forget-password">Forgot your password?</a>
+        </div>
+        <div class="login-form-buttons">        
+            <button type="submit" class="button">LOGIN</button>
+            <a asp-action="" class="button">REGISTER</a>
+        </div>
+    </div>
+</div>
 </form>

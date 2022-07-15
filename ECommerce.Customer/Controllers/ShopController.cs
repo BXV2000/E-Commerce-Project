@@ -42,6 +42,7 @@ namespace ECommerce.Customer.Controllers
             {
                 MultiModels customModel = new MultiModels();
                 customModel.Vegetable = await vegetableService.GetVegetable(id);
+                customModel.Vegetables = await vegetableService.GetVegetables();
                 var ratings = await ratingService.GetRatingsByProductId(id);
                 if (ratings.Count() > 0)
                 {
@@ -87,6 +88,7 @@ namespace ECommerce.Customer.Controllers
             {
                 MultiModels customModel = new MultiModels();
                 customModel.Vegetable = await vegetableService.GetVegetable(id);
+                customModel.Ratings = await ratingService.GetRatingsByProductId(id);
                 var ratings = await ratingService.GetRatingsByProductId(id);
                 if (ratings.Count() > 0)
                 {

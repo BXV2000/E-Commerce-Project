@@ -3,13 +3,12 @@
     ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">Error.Login require</h1>
-<a class="button" asp-area="" asp-controller="Home" asp-action="Login">TO LOGIN</a> 
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<div class="error-container">
+    <img src="/Images/HomepageTextImg.png" />
+    <div class="error-right">
+        <h1 class="">Please login to continue !!</h1>
+        <a class="button" asp-area="" asp-controller="Home" asp-action="Login">TO LOGIN</a> 
+    </div>
+</div>
 
-@if (Model.ShowRequestId)
-{
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
-}
+

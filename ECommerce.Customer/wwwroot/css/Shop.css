@@ -25,6 +25,7 @@
     display:flex;
     width:100%;
     margin-top:100px;
+    padding-bottom:50px;
 }
 
 .product-side{
@@ -49,12 +50,16 @@
     .product-side .product:nth-child(9) {
         display: flex;
     }
-    .sort-side {
-        display: flex;
-        flex-basis: 50%;
-        flex-direction: column;
-        margin-top: 50px;
-    }
+.sort-side {
+    display: flex;
+    flex-basis: 50%;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.subtext{
+    color: rgba(0,0,0,0.5);
+}
 
 .sort-side h3{
     font-family:'Nunito Sans';
@@ -81,20 +86,25 @@
 .sort-side li {
     color: gray;
     margin: 10px 0px;
+    max-width:250px;
+    cursor:pointer;
 }
 
 .sort-side li:hover {
     color: #FA6C47;
 }
 
-.sort-side li:hover a{
+.sort-side li:hover a {
+    color: #FA6C47;
+}
+.sort-side li:hover .subtext{
     color: #FA6C47;
 }
 
 #load-more-button{
     position:absolute;
-    bottom:375px;
-    left: 700px;
+    bottom:16.5%;
+    left: 36.5%;
 }
 
 /*PRODUCT DETAIL*/
@@ -165,6 +175,20 @@
     color:orange;
 }
 
+.product-detail-page .homepage-best-seller{
+    margin-top:100px;
+}
+
+.product-detail-page .product:nth-child(n+5) {
+    display: none;
+}
+
+.product-detail-page .homepage-best-seller-text {
+    align-items: flex-start;
+    width: 1250px;
+    max-width: 1400px;
+}
+
 /*RATING*/
 .rating-input{
     display:flex;
@@ -184,4 +208,54 @@
 .rating-input select:focus {
     outline: none;
     border-bottom: 1px solid rgba(0,0,0,1);
+}
+
+.rating-list-section{
+    margin-top:100px;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    padding:0 450px;
+}
+
+.rating-list-section h2 {
+    margin-bottom: 50px;
+    color: #FA6C47;
+}
+
+.rating-list-item {
+    display: flex;
+    margin-top:20px;
+}
+
+.rating-right{
+    margin-left:20px;
+}
+
+.rating-left img{
+    max-width:100px;
+    border-radius:50%;
+    background-color:rgba(0,0,0,0.1);
+}
+
+.rating-right p{
+    font-family:'Nunito Sans';
+}
+
+.rating-right p i{
+    color:orange;
+}
+
+.rating-right-name {
+    font-weight:bold;
+}
+
+.rating-list-items .rating-list-item:nth-child(n+6) {
+    display: none;
+}
+
+.rating-list-button{
+    display:flex;
+    justify-content:center;
+    width:100%;
 }

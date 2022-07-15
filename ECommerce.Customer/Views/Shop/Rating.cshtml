@@ -50,7 +50,7 @@
                       <option value="5" selected>5</option>
                     </select>
                     <input type="hidden" name="ProductId" value="@Model.Vegetable.Id"/>
-                    <p><i class="fa-solid fa-star"></i></p>
+                    <p>&nbsp <i class="fa-solid fa-star"></i></p>
                 </div>
             </table>
 
@@ -62,5 +62,32 @@
             </div>
             </form>
         </div>
-    </div> 
+    </div>
+    <div class="rating-list-section">
+        <h2>REVIEWS</h2>
+        <h3>@ratingCount review for Green Fig Fruit</h3>
+        <div class="rating-list-items">
+             @if (Model != null)
+            {
+                @foreach (var item in Model.Ratings)
+                {
+                    <div class="rating-list-item">        
+                        <div class="rating-left">
+                    <img src="/Images/User.png"/>
+                    </div>
+                    <div class="rating-right">
+                        <p>@item.RatingNumber <i class="fa-solid fa-star"></i></p>
+                        <p class="rating-right-name">VINZ</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                            Aliquam ut est pulvinar quam fringilla pretium. Praesent nibh orci, tincidunt a lacinia non, 
+                            vulputate id metus.</p>
+                    </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="rating-list-button">
+        <button class="button">SEE MORE</button>
+        </div>
+    </div>
 </div>
